@@ -4,3 +4,8 @@ __pycache__/
 **/working/
 **/experiments/
 *.env
+
+**/.git
+**/.git/
+.autorse-runs/
+artifact/

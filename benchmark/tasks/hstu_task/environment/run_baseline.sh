@@ -1,7 +1,4 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
-cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
-[[ "${1:-beauty}" == beauty ]] || exit 2
-if [[ $# -gt 0 ]]; then shift; fi
-python3 baseline/train.py --seed "${RESEARCH_SEED:-2024}" "$@"
-python3 baseline/submit.py
+WORKSPACE="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+exec python3 "$WORKSPACE/baseline_git.py" run --workspace "$WORKSPACE" --task hstu -- bash "$WORKSPACE/train_baseline.sh" "$@"

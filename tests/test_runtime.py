@@ -47,28 +47,62 @@ class RuntimeCliTests(unittest.TestCase):
                                 capture_output=True, text=True)
         self.assertEqual(result.returncode, 2)
 
+    def test_task_git_tooling_and_collection_wiring_matches_the_canonical_tools(self):
+        for task in TASKS:
+            with self.subTest(task=task):
+                task_dir = ROOT / f'benchmark/tasks/{task}_task'
+                environment = task_dir / 'environment'
+                for name in ('baseline_git.py', 'export_artifact.py'):
+                    self.assertEqual((ROOT / 'tools' / name).read_bytes(),
+                                     (environment / name).read_bytes())
+                wrapper = (environment / 'run_baseline.sh').read_text()
+                self.assertIn('baseline_git.py', wrapper)
+                self.assertIn(' run --workspace ', wrapper)
+                self.assertIn(f'--task {task} ', wrapper)
+                self.assertIn('train_baseline.sh', wrapper)
+                self.assertIn('python3 /workspace/baseline_git.py init --workspace /workspace',
+                              (environment / 'Dockerfile').read_text())
+                self.assertNotRegex((task_dir / 'task.toml').read_text(),
+                                    r'source\s*=\s*"/workspace/baseline"')
+
     def test_selected_artifact_records_source_config_and_checksums(self):
         with tempfile.TemporaryDirectory() as temp:
             workspace = Path(temp)
             (workspace / 'baseline').mkdir()
             (workspace / 'baseline/train.py').write_text('print("selected")\n')
             (workspace / 'baseline/checkpoint.pt').write_bytes(b'weights excluded')
-            (workspace / 'run_baseline.sh').write_text('python3 baseline/train.py\n')
+            (workspace / 'run_baseline.sh').write_text('bash train_baseline.sh "$@"\n')
+            (workspace / 'train_baseline.sh').write_text(
+                '#!/usr/bin/env bash\nset -eu\n'
+                'mkdir -p datasets/beauty/working\n'
+                'cat baseline/train.py > datasets/beauty/working/submission.npz\n')
             (workspace / 'requirements.txt').write_text('numpy==1.26.4\n')
-            (workspace / 'helper.py').write_text('print("helper")\n')
-            (workspace / 'settings.yaml').write_text('batch_size: 2\n')
+            (workspace / 'baseline/helper.py').write_text('print("helper")\n')
+            (workspace / 'baseline/settings.yaml').write_text('batch_size: 2\n')
+            def git_step(*command):
+                subprocess.run([sys.executable, str(ROOT / 'tools/baseline_git.py'),
+                                command[0], '--workspace', temp, *command[1:]],
+                               check=True, capture_output=True)
+            git_step('init')
+            git_step('new', 'exp/selected', '--from', 'baseline')
+            (workspace / 'baseline/train.py').write_text('print("selected experiment")\n')
+            git_step('commit', '-m', 'Select fixture source')
+            git_step('run', '--task', 'hstu', '--', 'bash', 'train_baseline.sh', 'beauty')
+            git_step('record', '--validation', 'NDCG@10=0.1', '--notes', 'Selected fixture')
             subprocess.run([sys.executable, str(ROOT / 'tools/export_artifact.py'),
                             '--workspace', temp, '--command', 'bash run_baseline.sh beauty',
-                            '--config', 'settings.yaml', '--helper', 'helper.py',
+                            '--config', 'baseline/settings.yaml',
                             '--validation', 'NDCG@10=0.1'],
                            check=True, capture_output=True)
             artifact = workspace / 'artifact'
             self.assertTrue((artifact / 'source/baseline/train.py').is_file())
             self.assertFalse((artifact / 'source/baseline/checkpoint.pt').exists())
-            self.assertTrue((artifact / 'config/settings.yaml').is_file())
+            self.assertTrue((artifact / 'config/baseline/settings.yaml').is_file())
             self.assertTrue((artifact / 'source/run_baseline.sh').is_file())
             self.assertTrue((artifact / 'source/requirements.txt').is_file())
-            self.assertTrue((artifact / 'source/helper.py').is_file())
+            self.assertTrue((artifact / 'source/baseline/helper.py').is_file())
+            self.assertTrue((artifact / 'baseline.git.bundle').is_file())
+            self.assertTrue((artifact / 'GIT_PROVENANCE.json').is_file())
             self.assertIn('bash run_baseline.sh beauty', (artifact / 'README.md').read_text())
             for line in (artifact / 'SHA256SUMS').read_text().splitlines():
                 digest, name = line.split('  ', 1)

@@ -4,5 +4,6 @@ WORKDIR /workspace
 COPY requirements.txt /tmp/task-requirements.txt
 RUN python3 -m pip install --no-cache-dir -r /tmp/task-requirements.txt
 COPY . /workspace
-RUN chmod +x /workspace/run_baseline.sh && chmod -R a+rwX /workspace
+RUN python3 /workspace/baseline_git.py init --workspace /workspace
+RUN chmod +x /workspace/run_baseline.sh /workspace/train_baseline.sh && chmod -R a+rwX /workspace
 CMD ["/bin/bash"]

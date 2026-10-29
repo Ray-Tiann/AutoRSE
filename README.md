@@ -7,9 +7,10 @@ runs a model–harness combination on a task, uses **public validation data** to
 choose the final model, and uploads its **test predictions** to the hosted evaluator.
 Hidden test labels stay on the evaluator server.
 
-**Evaluation workflow:** download public inputs → run the agent → select by public
-validation → export predictions and source → check prediction format → upload
-predictions to Hugging Face → receive aggregate test metrics.
+**Evaluation workflow:** download public inputs → run and record experiments on
+Git branches → select by public validation → export predictions, selected source,
+and experiment history → check prediction format → upload predictions to Hugging
+Face → receive aggregate test metrics.
 
 The repository includes six editable baselines, Claude Code / Codex / Terminus-2
 integrations, a local format validator, and the Hugging Face scoring application.
@@ -134,6 +135,38 @@ containers have public networking for API access; these data-access rules are
 not enforced by complete network isolation. Details, provider configuration
 references, and runtime constraints are in [Runtime instructions](benchmark/RUNTIME.md).
 
+### Keep the experiment code and run history
+
+Each task runtime creates a Git repository at `/workspace/baseline`, with branch
+`baseline` and the immutable starter tag `autorse-baseline`. Create one `exp/...`
+branch **before editing each logical experiment**, commit its code before running,
+and record its public-validation result afterward. For example, inside the HSTU
+task container:
+
+```bash
+python3 baseline_git.py init
+python3 baseline_git.py new exp/001-hstu-change --from baseline
+# Make one coherent change to source/helpers/configuration inside baseline/.
+python3 baseline_git.py commit -m 'Describe the HSTU experiment'
+CUDA_VISIBLE_DEVICES=0 RESEARCH_SEED=2024 bash run_baseline.sh beauty
+python3 baseline_git.py record --validation 'PUBLIC VALIDATION RESULT' \
+  --notes 'Change, observed outcome, and selection rationale'
+```
+
+Use `--from exp/001-hstu-change` to extend a previous experiment, or `--from baseline`
+for an independent idea. Keep failed branches and record failed runs with the
+observed error and unavailable validation when applicable. The wrapper captures
+the evaluated code commit, branch, command, exit status, and prediction hash;
+`record` commits this metadata under `baseline/experiments/`. Select using public
+validation only. Keep editable helpers and configuration under `baseline/` so
+Git captures them; `baseline/experiments/` is reserved for generated run records.
+Leave the workspace wrapper and requirements unchanged. Save each successful
+candidate prediction outside Git before the next experiment overwrites it, then
+restore the chosen candidate when selecting its branch. See the
+[complete HSTU workflow](benchmark/RUNTIME.md) for branch selection, prediction
+restoration, and exporting its provenance. The nested `.git`
+is created at runtime and is not committed to the public source repository.
+
 ### Optional: run a baseline without an LLM agent
 
 To check the training/prediction pipeline or establish a baseline, run one of the
@@ -195,12 +228,20 @@ python tools/validate_submission.py --task hstu \
   --submission /path/to/the/collected/submission.npz
 ```
 
-Agents must also write their selected code, necessary helpers/configuration,
-`README.md`, and `SHA256SUMS` to `/workspace/artifact/`. Harbor collects this under
-the trial's `artifacts/workspace/artifact/` directory. See
-[the source export command](benchmark/RUNTIME.md) for `export_artifact.py` usage.
-Keep this source artifact for reproducibility; the scoring Space accepts the
-**prediction file**, not the source folder or a checkpoint.
+Agents must switch to the branch selected by public validation and export from a
+clean, committed repository with a recorded successful run that matches its
+selected branch, code, required runtime files, and current prediction bytes. Restore
+the selected candidate's saved prediction before export, or rerun the selected
+code if no matching recorded prediction is available. `/workspace/artifact/`
+contains the selected code and necessary helpers/configuration, `README.md`, `GIT_PROVENANCE.json`,
+`baseline.git.bundle` with all experiment branches and their code/metadata history,
+and `SHA256SUMS`. Harbor collects this under the trial's
+`artifacts/workspace/artifact/` directory. See the
+[source export command](benchmark/RUNTIME.md) for `export_artifact.py` usage.
+Retain the whole artifact for reproduction and code audit. The scoring Space
+accepts **only the prediction file**; do not upload the Git bundle to the public
+Hugging Face Dataset or Space. Weights and data are excluded from the code history
+and export.
 
 **Local validation is not official evaluation.** `format_valid=true` or Harbor
 `format_valid=1` means only that the prediction format passed. It does not check
@@ -236,8 +277,9 @@ For ID/order errors, verify the task, v2 data revision, row count, and candidate
 Report each task's hosted score together with the exact model/backend identifier,
 harness and CLI versions, source commit, container image digest, public-data
 SHA/revision, seed, GPU/resources, research and
-finalization budgets, public-validation selection, prediction SHA, and selected
-source artifact. Keep resource budgets and v2 inputs consistent across comparisons;
+finalization budgets, public-validation selection, selected experiment branch and
+code commit, prediction SHA, and complete source/provenance artifact. Keep resource
+budgets and v2 inputs consistent across comparisons;
 report tasks and repeated seeds separately. A hosted numeric score alone does not
 certify source completeness or compliance with the research protocol.
 

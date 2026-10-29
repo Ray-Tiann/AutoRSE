@@ -102,6 +102,10 @@ for sig in (signal.SIGTERM, signal.SIGKILL):
             'Fit only public training data and select on public validation. Maintain a valid '
             'best-so-far prediction artifact. Local format_valid is a schema check; official '
             'hidden-test scoring is hosted separately. Do not attempt to recover hidden targets. '
+            'Maintain baseline/.git: create a new exp/<name> branch for each experimental change, '
+            'commit source before running run_baseline.sh, and record each outcome with '
+            'baseline_git.py record, including failures. Keep experimental helpers/config inside '
+            'baseline and save each candidate prediction outside Git. '
             'No paper knowledge base or previous experiment records are supplied.\n'
         )
         prompt = instruction + contract
@@ -117,11 +121,17 @@ for sig in (signal.SIGTERM, signal.SIGKILL):
                     await asyncio.sleep(min(self.short_segment_backoff_sec,
                                             max(0, deadline - time.monotonic())))
                 prompt = ('Continue this same research session. Review public-validation evidence, '
-                          'run a useful next experiment, and preserve the best submission. '
+                          'run a useful next experiment on a new committed exp/<name> branch, '
+                          'record its outcome, and preserve the best branch and prediction. '
                           f'{max(0, int(deadline - time.monotonic()))} research seconds remain.')
             await self._segment('The research deadline has arrived. Stop new experiments. '
-                                'Finalize the best public-validation-selected prediction artifact '
-                                'at the task’s declared path and report that path. '
+                                'Select the best branch using existing public validation evidence '
+                                'and restore that branch plus its matching saved prediction to the '
+                                'task’s declared path. Preserve all experiment branches and records. '
+                                'Run export_artifact.py with reproduction commands and validation '
+                                'rationale to create /workspace/artifact, including the selected '
+                                'source, Git bundle, provenance and SHA256SUMS. Report the prediction '
+                                'path, selected branch/commit and artifact path. '
                                 'Do not claim a hidden-test score.',
                                 environment, context, self.finalization_grace_sec, 'finalization')
         finally:

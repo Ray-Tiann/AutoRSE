@@ -33,3 +33,9 @@ logs/
 outputs/
 runs/
 .DS_Store
+
+# Runtime research repositories/artifacts are created locally, never gitlinks.
+**/baseline/.git/
+**/.autorse-runs/
+**/artifact/
+*.bundle
