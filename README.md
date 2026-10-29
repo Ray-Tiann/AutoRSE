@@ -24,7 +24,7 @@ to the hosted evaluator. Local format checks never compute the hidden-test score
 
 Use Linux with an NVIDIA GPU and Docker + NVIDIA Container Toolkit for the
 container runner. Public data installation and file checks also work without a GPU.
-Install Python 3.11+ on the host. Download the corrected public v2 input bundle
+Install Python 3.12+ on the host. Download the corrected public v2 input bundle
 from the public Dataset **after the maintainer has uploaded it**:
 
 ```bash
