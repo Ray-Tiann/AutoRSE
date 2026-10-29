@@ -1,0 +1,2 @@
+# Optional host orchestration dependency, separate from the model container.
+harbor==0.18.0

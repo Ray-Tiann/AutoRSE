@@ -1,0 +1,12 @@
+services:
+  main:
+    environment:
+      NVIDIA_VISIBLE_DEVICES: "${GPU_DEVICE_0:-0}"
+      NVIDIA_DRIVER_CAPABILITIES: "compute,utility"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ["${GPU_DEVICE_0:-0}"]
+              capabilities: [gpu]

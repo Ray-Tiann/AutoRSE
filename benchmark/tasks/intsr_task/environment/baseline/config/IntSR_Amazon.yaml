@@ -1,0 +1,32 @@
+batch_size: 32
+eval_batch_size: 32
+dropout: 0.1
+lr: 0.001
+min_lr: 0.000001
+l2: 0.0
+
+epoch: 6
+patience: 3
+early_stop: 0
+train_schedule: joint
+
+intsr_dim: 32
+qdb_layers: 3
+max_relative_position: 256
+relative_time_buckets: 32
+absolute_time_buckets: 4096
+
+dsf_num_scenarios: 2
+dsf_layers: 3
+prediction_mode: ranking_mlp
+historical_query_include_item: 0
+candidate_scorer_layers: 2
+query_backend: precomputed_qwen
+query_feature_path: "../dataset/Amazon/train_data/features/qwen3_0.6b_last_fp16.npz"
+session_pos_items_path: "../dataset/Amazon/train_data/vocab/src_session_pos_items.npy"
+normalize_precomputed_queries: 1
+intsr_embedding_init_std: 0.02
+query_augmentation_beta: 0.0
+query_augmentation_pool_path: "output/Amazon/query_reconstruction/train_item_query_pool_augmented.npz"
+
+src_loss_weight: 1.0
