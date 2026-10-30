@@ -2,6 +2,7 @@
 import copy
 import hashlib
 import json
+import os
 from pathlib import Path
 from types import SimpleNamespace
 import tempfile
@@ -13,6 +14,9 @@ from autorse_leaderboard import cli
 
 class WorkflowTests(unittest.TestCase):
     def setUp(self):
+        environment = patch.dict(os.environ, {"GITHUB_SHA": "f" * 40})
+        environment.start()
+        self.addCleanup(environment.stop)
         self.fixture = test_validation.ValidationTests()
         self.fixture.setUp()
         self.temp = tempfile.TemporaryDirectory()
