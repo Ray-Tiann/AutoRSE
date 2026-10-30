@@ -1,0 +1,83 @@
+name: Validate leaderboard submission
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths:
+      - "leaderboard/submissions/**"
+
+# pull_request_target is used only to run the base branch's validator on JSON data.
+# No fork checkout, PR commands, repository secrets or OIDC credentials are used.
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: leaderboard-validation-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    if: github.event.pull_request.base.ref == 'main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Check out trusted base code
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+
+      - name: Install trusted validator dependencies
+        run: python -m pip install --disable-pip-version-check -r leaderboard/requirements.txt
+
+      - name: Read only the PR submission JSON
+        id: input
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PYTHONPATH: leaderboard
+        run: |
+          python -m autorse_leaderboard.github_review fetch-pr \
+            --repository "$GITHUB_REPOSITORY" \
+            --pr "$PR_NUMBER" \
+            --head-sha "$PR_HEAD_SHA" \
+            --output-dir "$RUNNER_TEMP/leaderboard-input" \
+            --report "$RUNNER_TEMP/leaderboard-input-report.json"
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          report = json.loads((Path(os.environ["RUNNER_TEMP"]) / "leaderboard-input-report.json").read_text())
+          if report.get("is_submission") is not True:
+              raise SystemExit("This PR is not an eligible leaderboard submission.")
+          with open(os.environ["GITHUB_OUTPUT"], "a") as output:
+              output.write("submission_file=" + report["local_path"] + "\n")
+          PY
+
+      - name: Validate signed receipts and public evidence
+        env:
+          PYTHONPATH: leaderboard
+          SUBMISSION_FILE: ${{ steps.input.outputs.submission_file }}
+        run: |
+          python -m autorse_leaderboard.cli validate \
+            --submission "$SUBMISSION_FILE" \
+            --keys leaderboard/trusted-keys.json \
+            --resolve-artifacts \
+            --report "$RUNNER_TEMP/leaderboard-validation.json"
+
+      - name: Save validation report
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: leaderboard-validation-${{ github.event.pull_request.number }}
+          path: |
+            ${{ runner.temp }}/leaderboard-input-report.json
+            ${{ runner.temp }}/leaderboard-validation.json
+          if-no-files-found: ignore
+          retention-days: 30

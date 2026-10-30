@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f3f6fc">
+<title>AutoRSE Leaderboard</title>
+<meta name="description" content="Compare LLM agents as recommendation engineers on the AutoRSE benchmark. Explore paper reference results and contribute reproducible community evaluations.">
+<style>
+:root{--ink:#17243d;--blue:#2759c4;--muted:#52647c;--line:#dfe6ef;--soft:#f3f6fc;--green:#16786e;--red:#b64e45;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:var(--ink);background:#fff;font-synthesis:none}*{box-sizing:border-box}body{margin:0;font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased}a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}button,select{font:inherit}a:focus-visible,button:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid #4d85e7;outline-offset:4px}button{cursor:pointer}h1,h2,h3,p{margin:0}h1,h2,h3{line-height:1.2;letter-spacing:-.035em}h1{font-size:clamp(32px,4vw,44px);font-weight:750}h2{font-size:27px;font-weight:700}main{max-width:1080px;margin:auto;padding:42px 32px 32px}.brand{display:flex;align-items:center;gap:10px;color:var(--blue);font-weight:750;font-size:18px;letter-spacing:-.03em;margin-bottom:21px}.brand svg{width:30px;height:30px}.intro{font-size:18px;color:var(--muted);max-width:760px;margin-top:16px}.links{display:flex;gap:10px;flex-wrap:wrap;margin:25px 0 34px}.links a{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:7px;min-height:44px;padding:8px 16px;font-size:16px;font-weight:600}.links .primary{color:white;background:var(--blue);border-color:var(--blue)}.links a:hover{text-decoration:none;background:#edf3fe;color:var(--blue)}.board{border:1px solid #d8e2ef;border-radius:16px;background:white;overflow:hidden}.filters{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;padding:24px;background:#f8faff;border-bottom:1px solid var(--line)}.filters label{display:flex;flex-direction:column;gap:8px;font-weight:600;color:#3b5274;font-size:16px}select{width:100%;min-height:46px;padding:9px 35px 9px 12px;border:1px solid #ccd9eb;border-radius:7px;color:var(--ink);background:#fff;font-size:16px}.board-heading{display:flex;justify-content:space-between;align-items:baseline;gap:20px;padding:23px 24px 20px}.board-heading h2{font-size:22px}.board-heading p{font-size:16px;color:var(--muted)}.metric-note{font-size:16px;color:var(--muted);padding:0 24px 21px}.table-scroll{overflow-x:auto}.leaderboard{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;table-layout:fixed}.leaderboard col.rank-col{width:80px}.leaderboard col.result-col{width:310px}.leaderboard thead th{padding:14px 24px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:#f8faff;color:#415776;font-size:16px;font-weight:600;text-align:left}.leaderboard thead th:last-child{text-align:right}.leaderboard tbody td{border-bottom:1px solid #e8edf5;padding:19px 24px;vertical-align:middle}.leaderboard tbody tr:last-child td{border:0}.leaderboard tbody tr:hover{background:#f8fbff}.leaderboard tbody tr.leader-row{background:#f2f6ff}.rank{display:grid;place-items:center;width:32px;height:32px;border-radius:8px;font-size:17px;font-weight:650;color:#5a6d86;background:#f0f3f8}.rank.top{background:#e0eaff;color:#2759c4}.leaderboard tbody tr.leader-row .rank{background:var(--blue);color:#fff}.agent-name{font-size:18px;font-weight:650;line-height:1.4;overflow-wrap:anywhere}.agent-harness{font-size:16px;color:var(--muted);display:block;margin-top:4px}.result{text-align:right}.gain{display:block;font-size:23px;font-weight:700;line-height:1.3;letter-spacing:-.025em}.mean-rank{color:var(--blue)}.positive{color:var(--green)}.negative{color:var(--red)}.raw-score{display:block;font-size:16px;line-height:1.55;color:var(--muted);margin-top:7px}.table-note{font-size:16px;color:var(--muted);padding:20px 24px;border-top:1px solid var(--line);background:#fbfcff}.rank-breakdown{margin:0;padding:0 24px;border-top:1px solid var(--line)}.rank-breakdown>summary{padding:19px 0}.rank-table-scroll{overflow-x:auto;padding-bottom:20px}.rank-table{width:100%;min-width:810px;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:16px;text-align:center}.rank-table th,.rank-table td{padding:12px 10px;border-bottom:1px solid var(--line)}.rank-table thead th{font-weight:600;color:#415776;background:#f8faff}.rank-table th:first-child,.rank-table td:first-child{text-align:left;min-width:190px}.rank-table th:last-child,.rank-table td:last-child{font-weight:650;color:var(--blue)}.rank-table .agent-name{font-size:16px}.empty{font-size:18px;text-align:center;color:var(--muted);padding:32px!important}.data-links{display:flex;gap:22px;flex-wrap:wrap;font-size:16px;font-weight:550;margin:23px 0 28px}.contribute{border-top:1px solid var(--line);padding-top:30px;margin-top:28px}.contribute>p{color:var(--muted);font-size:18px;max-width:760px;margin-top:13px}.contribute .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:24px}.step{padding:0 8px 0 17px;border-left:3px solid #d2e0fa}.step strong{font-size:18px;display:block}.step p{font-size:16px;color:var(--muted);margin-top:8px}.submission-links{display:flex;gap:22px;flex-wrap:wrap;margin-top:24px;font-size:16px;font-weight:600}details{border-top:1px solid var(--line);margin-top:30px}summary{cursor:pointer;list-style:none;font-size:16px;font-weight:600;padding:20px 0;display:flex;align-items:center;justify-content:space-between}summary::-webkit-details-marker{display:none}summary::after{content:'+';font-size:22px;color:var(--blue)}details[open] summary::after{content:'−'}.method{color:var(--muted);font-size:16px;padding:0 0 6px;max-width:900px}.method p+p{margin-top:13px}.source-label{color:var(--muted);font-size:16px}.sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}[hidden]{display:none!important}.status{padding:18px 0;color:#875b21;font-size:16px}.noscript{padding:24px;font-size:18px}.footer{margin-top:30px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:16px}.embed .standalone{display:none}.embed main{padding:24px;max-width:none}.embed .links{margin-bottom:24px}.embed .contribute{margin-bottom:0}.embed .board-heading{padding-top:21px}
+@media(max-width:600px){main{padding:28px 18px 24px}.brand{margin-bottom:16px}h1{font-size:32px}.intro,.contribute>p{font-size:17px}.links{gap:10px;margin:22px 0 26px}.links a{padding:8px 12px;font-size:16px}.filters{grid-template-columns:1fr;padding:20px 16px;gap:17px}.board{border-radius:12px}.board-heading{padding:20px 15px 15px;display:block}.board-heading p{margin-top:8px}.metric-note{padding:0 15px 19px;font-size:16px}.leaderboard col.rank-col{width:46px}.leaderboard col.result-col{width:147px}.leaderboard th,.leaderboard td{padding-left:10px!important;padding-right:10px!important}.leaderboard th{font-size:16px}.leaderboard tbody td{padding-top:18px;padding-bottom:18px}.leaderboard th:first-child,.leaderboard td:first-child{padding-right:0!important}.rank{width:29px;height:29px;font-size:16px}.agent-name{font-size:17px;line-height:1.45}.agent-harness{font-size:16px;line-height:1.4}.gain{font-size:21px}.raw-score{font-size:16px}.table-note{padding:18px 15px;font-size:16px}.contribute .steps{grid-template-columns:1fr;gap:22px}.contribute{padding-top:27px}.contribute h2{font-size:25px}.data-links{gap:15px 22px}.embed main{padding:18px 14px}.embed .leaderboard col.result-col{width:138px}.embed .leaderboard col.rank-col{width:42px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+<script type="application/json" id="seed-data">{"metadata":{"version":2,"title":"AutoRSE leaderboard reference results","source":"AutoRSE, Table 1: Final performance across six recommendation tasks","paper_url":"https://arxiv.org/abs/2610.37228","code_url":"https://github.com/Ray-Tiann/AutoRSE","provenance":"Paper reference","prepared_date":"2026-10-30","configuration_count":7,"task_count":6,"performance_cell_count":42,"run_budget_hours":12,"score_definition":"Mean final held-out test score; sd is the reported standard deviation across available performance trials.","relative_gain_definition":"100 × (mean final test score / task baseline score − 1), reported to two decimal places.","overall_ranking_metric":"mean_task_rank","overall_ranking_direction":"ascending","overall_ranking_definition":"Equal-weight mean of the six task ranks; lower is better. Rank sums and means produce identical overall ordering for the same six tasks.","task_ranking_definition":"Within the complete six-task cohort, higher reported mean test scores rank better. Scores are compared at their published four-decimal precision.","task_tie_policy":"Midranks: tied task scores share the average of their occupied positions, for example 1, 2.5, 2.5, 4.","overall_tie_policy":"Equal exact rank sums share a competition rank, for example 1, 1, 3. Rounded display means do not determine ties.","overall_cohort_definition":"Only entries with scores and gains for all six tasks enter the overall cohort. task_ranks, rank_sum, mean_task_rank and overall_rank snapshot this fixed cohort; incomplete entries have null derived fields.","overall_cohort_count":7,"filter_policy":"Harness filters only hide rows and do not recalculate task ranks, mean task ranks, or overall ranks.","partial_results_policy":"Incomplete submissions are excluded from the overall cohort. A per-task view can rank all entries with an available score on that task separately.","average_gain_definition":"Published unweighted mean relative test-score change across all six tasks, including negative gains. Retained as a reported statistic, not the overall ranking metric. Raw AUC and NDCG scores are not averaged together.","precision":"Published scores and SDs (four decimals) and published per-task and average gains (two decimals) are preserved. Average gains are not recomputed from the rounded per-task percentages.","trial_count_definition":"Three available performance trials per task–configuration, except OneTrans with Terminus-2 × GPT-5.5, which has two. trial_counts follows task_order.","ranking_caution":"Descriptive ordering of reported means; no claim of statistically significant differences between adjacent entries.","source_sha256":{"website_data_js":"39d912addc597f9a9e24d4edf07a2637ae76920d8017550bb5a4c8508eac2348","novelty_json":"a8a48730c63f792d5b88fad99b790ad06e646cb8b3a6b1e2391148d5d94db471","manuscript_experiments_tex":"f31a9252198beed6f950850595aa6afd3ace1e3fb309355fc34724db9e052493"}},"task_order":["HSTU","IntSR","TIGER","OneTrans","RankMixer","WuKong"],"tasks":[{"name":"HSTU","type":"Generative recommendation","dataset":"Amazon Beauty","metric":"NDCG@10","baseline_score":0.0535,"method":"Sequential modeling"},{"name":"IntSR","type":"Generative recommendation","dataset":"Amazon Kindle","metric":"Macro NDCG@10","baseline_score":0.694,"method":"Joint search–recommendation modeling"},{"name":"TIGER","type":"Generative recommendation","dataset":"Amazon Beauty","metric":"NDCG@10","baseline_score":0.0332,"method":"Semantic-ID generation"},{"name":"OneTrans","type":"CTR prediction","dataset":"KuaiSAR v2","metric":"Click AUC","baseline_score":0.6767,"method":"Unified sequence modeling"},{"name":"RankMixer","type":"CTR prediction","dataset":"Criteo 5M","metric":"AUC","baseline_score":0.7859,"method":"Multi-head token mixing"},{"name":"WuKong","type":"CTR prediction","dataset":"MovieLens Latest","metric":"AUC","baseline_score":0.9645,"method":"Feature interaction"}],"rows":[{"harness":"Claude Code","model":"DeepSeek V4 Flash","scores":[0.0674,0.6606,0.0476,0.7467,0.7979,0.9805],"sd":[0.0032,0.0541,0.0138,0.0324,0.0015,0.003],"relative_gain_percent":[25.98,-4.81,43.37,10.34,1.53,1.66],"average_gain_percent":13.01,"id":"claude-code-deepseek-v4-flash","provenance":"Paper reference","source_url":"https://arxiv.org/abs/2610.37228","trial_counts":[3,3,3,3,3,3],"task_ranks":[3,4,6,1,3,4],"rank_sum":21,"mean_task_rank":3.5,"overall_rank":3},{"harness":"Claude Code","model":"Claude Opus 4.8","scores":[0.0754,0.7325,0.0631,0.7184,0.8002,0.984],"sd":[0.0043,0.0292,0.0164,0.0068,0.0009,0.0039],"relative_gain_percent":[40.93,5.55,90.06,6.16,1.82,2.02],"average_gain_percent":24.42,"id":"claude-code-claude-opus-4-8","provenance":"Paper reference","source_url":"https://arxiv.org/abs/2610.37228","trial_counts":[3,3,3,3,3,3],"task_ranks":[1,2,2,6,1,2],"rank_sum":14,"mean_task_rank":2.3333333333333335,"overall_rank":1},{"harness":"Codex","model":"DeepSeek V4 Flash","scores":[0.0657,0.6485,0.0583,0.7203,0.7974,0.979],"sd":[0.003,0.0335,0.0147,0.0044,0.0003,0.0018],"relative_gain_percent":[22.8,-6.56,75.6,6.44,1.46,1.5],"average_gain_percent":16.88,"id":"codex-deepseek-v4-flash","provenance":"Paper reference","source_url":"https://arxiv.org/abs/2610.37228","trial_counts":[3,3,3,3,3,3],"task_ranks":[6,5,4,5,5,6],"rank_sum":31,"mean_task_rank":5.166666666666667,"overall_rank":7},{"harness":"Codex","model":"GPT-5.5","scores":[0.0672,0.7692,0.0659,0.7292,0.7954,0.9796],"sd":[0.0065,0.1904,0.0046,0.0342,0.003,0.0032],"relative_gain_percent":[25.61,10.84,98.49,7.76,1.21,1.57],"average_gain_percent":24.24,"id":"codex-gpt-5-5","provenance":"Paper reference","source_url":"https://arxiv.org/abs/2610.37228","trial_counts":[3,3,3,3,3,3],"task_ranks":[4,1,1,2,6,5],"rank_sum":19,"mean_task_rank":3.1666666666666665,"overall_rank":2},{"harness":"Terminus-2","model":"DeepSeek V4 Flash","scores":[0.0667,0.6291,0.0554,0.6665,0.7977,0.9877],"sd":[0.0057,0.0858,0.0158,0.0447,0.0012,0.002],"relative_gain_percent":[24.67,-9.35,66.87,-1.51,1.5,2.41],"average_gain_percent":14.1,"id":"terminus-2-deepseek-v4-flash","provenance":"Paper reference","source_url":"https://arxiv.org/abs/2610.37228","trial_counts":[3,3,3,3,3,3],"task_ranks":[5,6,5,7,4,1],"rank_sum":28,"mean_task_rank":4.666666666666667,"overall_rank":5},{"harness":"Terminus-2","model":"GPT-5.5","scores":[0.0697,0.6146,0.0614,0.7285,0.7944,0.9749],"sd":[0.0058,0.0711,0.0053,0.0498,0.0021,0.0035],"relative_gain_percent":[30.28,-11.44,84.94,7.65,1.08,1.08],"average_gain_percent":18.93,"id":"terminus-2-gpt-5-5","provenance":"Paper reference","source_url":"https://arxiv.org/abs/2610.37228","trial_counts":[3,3,3,2,3,3],"task_ranks":[2,7,3,3,7,7],"rank_sum":29,"mean_task_rank":4.833333333333333,"overall_rank":6},{"harness":"Terminus-2","model":"Claude Opus 4.8","scores":[0.0636,0.6761,0.0273,0.7207,0.7989,0.9823],"sd":[0.0015,0.0334,0.019,0.0232,0.0014,0.0004],"relative_gain_percent":[18.88,-2.58,-17.77,6.5,1.65,1.85],"average_gain_percent":1.42,"id":"terminus-2-claude-opus-4-8","provenance":"Paper reference","source_url":"https://arxiv.org/abs/2610.37228","trial_counts":[3,3,3,3,3,3],"task_ranks":[7,3,7,4,2,3],"rank_sum":26,"mean_task_rank":4.333333333333333,"overall_rank":4}]}</script>
+<script type="application/json" id="community-seed-data">{"metadata":{"version":3,"schema_version":1,"title":"AutoRSE reviewed community leaderboard","cohort":"community:autorse-public-v2-20261029","data_revision":"autorse-public-v2-20261029","provenance":"Reviewed community","configuration_count":0,"overall_cohort_count":0,"task_count":6,"required_trials_per_task":3,"overall_ranking_metric":"mean_task_rank","overall_ranking_direction":"ascending","task_tie_policy":"Scores rounded to four decimals with decimal half-up; equal scores receive midranks.","overall_tie_policy":"Equal exact rank sums share a competition rank (1, 1, 3).","filter_policy":"Filters hide rows without recalculating ranks or changing the cohort.","comparison_policy":"Only reviewed complete benchmark submissions from this data revision; historical paper references are separate."},"task_order":["HSTU","IntSR","TIGER","OneTrans","RankMixer","WuKong"],"tasks":[{"name":"HSTU","metric":"NDCG@10"},{"name":"IntSR","metric":"Macro NDCG@10"},{"name":"TIGER","metric":"NDCG@10"},{"name":"OneTrans","metric":"Click AUC"},{"name":"RankMixer","metric":"AUC"},{"name":"WuKong","metric":"AUC"}],"rows":[]}</script>
+</head>
+<body>
+<main>
+  <header class="standalone">
+    <a class="brand" href="https://ray-tiann.github.io/AutoRSE_WEB/" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M7 23 16 7l9 16M11 19h10M24 8h4v4M28 8l-6 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg> AutoRSE</a>
+    <h1>AutoRSE Leaderboard</h1>
+    <p class="intro">Compare agents on six recommendation tasks. Community evaluations are welcome.</p>
+  </header>
+  <nav class="links" aria-label="Leaderboard resources">
+    <a class="primary" href="https://huggingface.co/spaces/Ray0311/AutoRSE-Evaluator" target="_blank" rel="noopener noreferrer">Score predictions (v2) <span aria-hidden="true">↗</span></a>
+    <a href="https://github.com/Ray-Tiann/AutoRSE" target="_blank" rel="noopener noreferrer">Code <span aria-hidden="true">↗</span></a>
+    <a href="https://arxiv.org/abs/2610.37228" target="_blank" rel="noopener noreferrer">Paper <span aria-hidden="true">↗</span></a>
+  </nav>
+  <section class="board" aria-labelledby="ranking-title">
+    <div class="filters">
+      <label for="cohort-filter">Results<select id="cohort-filter"><option value="community">Community · v2</option><option value="paper">Paper reference · historical</option></select></label>
+      <label for="task-filter">Ranking<select id="task-filter"><option value="overall">Overall · six tasks</option></select></label>
+      <label for="harness-filter">Agent harness<select id="harness-filter"><option value="all">All harnesses</option></select></label>
+    </div>
+    <div class="board-heading"><h2 id="ranking-title">Community ranking</h2><p id="entry-count">0 configurations</p></div>
+    <p class="metric-note" id="metric-note">Average of six task ranks · lower is better.</p>
+    <div class="table-scroll"><table class="leaderboard" aria-describedby="metric-note table-note"><caption class="sr-only" id="ranking-caption">AutoRSE reported mean performance rankings</caption><colgroup><col class="rank-col"><col><col class="result-col"></colgroup><thead><tr><th scope="col">Rank</th><th scope="col">LLM / harness</th><th scope="col" id="value-heading">Avg. rank</th></tr></thead><tbody id="ranking-rows"></tbody></table></div>
+    <p class="table-note" id="table-note">Community entries appear after review.</p>
+    <details class="rank-breakdown" id="rank-breakdown"><summary>Ranks by task</summary><div class="rank-table-scroll" tabindex="0" role="region" aria-label="Task ranks used in the overall ranking"><table class="rank-table"><caption class="sr-only">Task ranks within the complete six-task comparison cohort and their equal-weight average.</caption><thead id="rank-detail-head"></thead><tbody id="rank-detail-rows"></tbody></table></div></details>
+  </section>
+  <p id="load-status" class="status" role="status" hidden></p>
+  <p id="ranking-status" class="sr-only" role="status" aria-live="polite"></p>
+  <div class="data-links" id="data-links" hidden><a id="csv-download" href="leaderboard-data.csv" download>Results CSV ↓</a><a id="json-download" href="community-leaderboard.json" download>Results JSON ↓</a></div>
+  <section class="contribute" id="contribute" aria-labelledby="contribute-title">
+    <h2 id="contribute-title">Bring your agent to AutoRSE.</h2>
+    <p>We welcome evaluations of new models, agent harnesses, and research ideas.</p>
+    <div class="steps">
+      <div class="step"><strong>1. Evaluate</strong><p>Complete all six tasks with the published budget and three independent trials.</p></div>
+      <div class="step"><strong>2. Share evidence</strong><p>Submit your evaluation receipts, code, configuration, and execution logs.</p></div>
+      <div class="step"><strong>3. Maintainer review</strong><p>Approved results appear in the matching community cohort.</p></div>
+    </div>
+    <div class="submission-links"><a href="https://huggingface.co/spaces/Ray0311/AutoRSE-Leaderboard/blob/main/SUBMISSIONS.md" target="_blank" rel="noopener noreferrer">Submission guide <span aria-hidden="true">↗</span></a></div>
+  </section>
+  <details><summary>Scoring &amp; data</summary><div class="method"><p>Community results cover all six tasks with three independent trials per task. Only reviewed benchmark submissions enter the community cohort; historical paper references remain separate.</p><p>Each task ranks mean scores from highest to lowest at four-decimal precision, with tied scores receiving midranks. Overall order uses the equal-weight average of six task ranks; lower is better. Equal rank sums share a competition position. Harness filters only hide rows.</p><p>The paper-reference view preserves published scores, standard deviations, relative gains and available trial counts. Community views show raw test metrics and their standard deviations; no historical baseline gains are inferred.</p><p>Source: <a href="https://arxiv.org/abs/2610.37228" target="_blank" rel="noopener noreferrer">AutoRSE, Table 1</a>. Community entries link to their reviewed submission evidence.</p></div></details>
+  <p class="footer standalone"><a href="https://ray-tiann.github.io/AutoRSE_WEB/" target="_blank" rel="noopener noreferrer">AutoRSE project website <span aria-hidden="true">↗</span></a></p>
+  <noscript><p class="noscript">Enable JavaScript to sort and filter the leaderboard. Historical paper results are available in the <a href="leaderboard-data.csv">CSV file</a>.</p></noscript>
+</main>
+<script>(function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.AutoRSELeaderboardCore=api;})(typeof globalThis==='object'?globalThis:this,function(){
+  'use strict';
+  const number=value=>typeof value==='number'&&Number.isFinite(value);
+  const isPaper=data=>data?.metadata?.provenance==='Paper reference';
+  function validData(data){
+    if(!data||!Array.isArray(data.tasks)||!Array.isArray(data.task_order)||data.tasks.length!==6||data.task_order.length!==6||new Set(data.task_order).size!==6||!Array.isArray(data.rows))return false;
+    const paper=isPaper(data),size=data.rows.length;
+    if(!paper&&(!data.metadata||typeof data.metadata.data_revision!=='string'||!data.metadata.data_revision||data.metadata.cohort!=='community:'+data.metadata.data_revision))return false;
+    if(!data.tasks.every((task,i)=>task.name===data.task_order[i]&&typeof task.metric==='string'&&(!paper||(number(task.baseline_score)&&task.baseline_score>0))))return false;
+    const ids=new Set();
+    return data.rows.every(row=>{
+      if(!row||typeof row.id!=='string'||!row.id||ids.has(row.id)||typeof row.model!=='string'||!row.model||typeof row.harness!=='string'||!row.harness)return false;
+      ids.add(row.id);
+      if(!['scores','sd','trial_counts'].every(key=>Array.isArray(row[key])&&row[key].length===6))return false;
+      if(paper)return Array.isArray(row.relative_gain_percent)&&row.relative_gain_percent.length===6&&row.scores.every((v,i)=>v===null?row.relative_gain_percent[i]===null:number(v)&&number(row.relative_gain_percent[i])&&number(row.sd[i])&&row.sd[i]>=0&&Number.isInteger(row.trial_counts[i])&&row.trial_counts[i]>0);
+      if(!row.scores.every(number)||!row.sd.every(v=>number(v)&&v>=0)||!row.trial_counts.every(v=>v===3))return false;
+      if(!Array.isArray(row.task_ranks)||row.task_ranks.length!==6||!row.task_ranks.every(v=>number(v)&&v>=1&&v<=size&&Number.isInteger(v*2)))return false;
+      const sum=row.task_ranks.reduce((a,b)=>a+b,0);
+      return number(row.rank_sum)&&row.rank_sum===sum&&number(row.mean_task_rank)&&Math.abs(row.mean_task_rank-sum/6)<1e-12&&Number.isInteger(row.overall_rank)&&row.overall_rank>=1&&row.overall_rank<=size;
+    });
+  }
+  function fixedFour(value){
+    // Match Decimal(str(value)).quantize(.0001, ROUND_HALF_UP), not binary toFixed ties.
+    const [mantissa,exponent='0']=Math.abs(value).toString().toLowerCase().split('e');
+    const parts=mantissa.split('.'),digits=BigInt(parts.join(''));
+    const shift=Number(exponent)-(parts[1]?.length||0)+4,factor=10n**BigInt(Math.abs(shift));
+    const rounded=shift>=0?digits*factor:(digits+factor/2n)/factor;
+    const text=rounded.toString().padStart(5,'0');
+    return `${value<0&&rounded!==0n?'-':''}${text.slice(0,-4)}.${text.slice(-4)}`;
+  }
+  const stableOrder=(a,b)=>a.row.model.localeCompare(b.row.model)||a.row.harness.localeCompare(b.row.harness)||a.row.id.localeCompare(b.row.id);
+  function taskRanking(data,index){
+    const paper=isPaper(data);
+    const sorted=data.rows.filter(row=>number(row.scores[index])).map(row=>({row,index,value:paper?row.relative_gain_percent[index]:row.scores[index],score:Number(row.scores[index].toFixed(4)),rank:paper?null:row.task_ranks[index]}));
+    if(!paper){
+      sorted.sort((a,b)=>a.rank-b.rank||stableOrder(a,b));
+      const best=sorted[0]?.rank;
+      return sorted.map(entry=>({...entry,isLeader:entry.rank===best}));
+    }
+    sorted.sort((a,b)=>b.score-a.score||stableOrder(a,b));
+    for(let start=0;start<sorted.length;){let end=start+1;while(end<sorted.length&&sorted[end].score===sorted[start].score)end++;const rank=(start+1+end)/2;for(let i=start;i<end;i++){sorted[i].rank=rank;sorted[i].isLeader=start===0;}start=end;}
+    return sorted;
+  }
+  function overallRanking(data){
+    const cohort=data.rows.filter(row=>row.scores.every(number));
+    const ranks=new Map(cohort.map(row=>[row.id,isPaper(data)?[]:[...row.task_ranks]]));
+    if(isPaper(data))data.task_order.forEach((_,index)=>taskRanking({...data,rows:cohort},index).forEach(entry=>ranks.get(entry.row.id).push(entry.rank)));
+    const sorted=cohort.map(row=>{const taskRanks=ranks.get(row.id),rankSum=taskRanks.reduce((sum,rank)=>sum+rank,0);return {row,index:-1,taskRanks,rankSum,meanRank:rankSum/6,value:rankSum/6};}).sort((a,b)=>a.rankSum-b.rankSum||stableOrder(a,b));
+    let previous,rank;return sorted.map((entry,i)=>{if(i===0||entry.rankSum!==previous)rank=i+1;previous=entry.rankSum;return {...entry,rank,isLeader:rank===1};});
+  }
+  function ranking(data,task='overall',harness='all'){
+    const index=data.task_order.indexOf(task);
+    const rows=task==='overall'?overallRanking(data):index>=0?taskRanking(data,index):[];
+    return rows.filter(({row})=>harness==='all'||row.harness===harness);
+  }
+  return {validData,ranking,isPaper,fixedFour};
+});
+</script>
+<script>
+(()=>{
+  'use strict';
+  const {validData,ranking,isPaper,fixedFour}=AutoRSELeaderboardCore,$=id=>document.getElementById(id);
+  const paperSeed=JSON.parse($('seed-data').textContent),emptyCommunity=JSON.parse($('community-seed-data').textContent);
+  const boards={community:emptyCommunity,paper:paperSeed},errors={community:'',paper:''};
+  const embedded=new URLSearchParams(location.search).get('embed')==='1';if(embedded)document.documentElement.classList.add('embed');
+  const current=()=>boards[$('cohort-filter').value];
+  const element=(tag,text,cls)=>{const el=document.createElement(tag);if(text!==undefined)el.textContent=text;if(cls)el.className=cls;return el;};
+  const safeHref=value=>{try{const url=new URL(value);return url.protocol==='https:'?url.href:null;}catch{return null;}};
+  const signed=v=>`${v<0?'−':'+'}${Math.abs(v).toFixed(2)}%`;
+  function setupOptions(){
+    const data=current(),task=$('task-filter'),harness=$('harness-filter'),selectedTask=task.value,selectedHarness=harness.value;
+    task.replaceChildren(new Option('Overall · six tasks','overall'),...data.tasks.map(t=>new Option(t.name,t.name)));
+    harness.replaceChildren(new Option('All harnesses','all'),...[...new Set(data.rows.map(r=>r.harness))].sort().map(h=>new Option(h,h)));
+    if([...task.options].some(o=>o.value===selectedTask))task.value=selectedTask;
+    if([...harness.options].some(o=>o.value===selectedHarness))harness.value=selectedHarness;
+    const revision=boards.community.metadata.data_revision,short=revision.match(/public-(v\d+)/)?.[1]||revision;
+    $('cohort-filter').options[0].textContent=`Community · ${short}`;
+  }
+  function identityCell(row){
+    const cell=element('td'),name=element('div',undefined,'agent-name'),url=safeHref(row.source_url);
+    if(url){const a=element('a',row.model);a.href=url;a.target='_blank';a.rel='noopener noreferrer';a.setAttribute('aria-label',`${row.model}: submission evidence`);name.append(a);}else name.textContent=row.model;
+    cell.append(name,element('span',row.harness,'agent-harness'));return cell;
+  }
+  function render(){
+    const cohort=$('cohort-filter').value,data=current(),paper=isPaper(data),task=$('task-filter').value,harness=$('harness-filter').value;
+    const ranked=ranking(data,task,harness),index=data.task_order.indexOf(task),overall=task==='overall',t=data.tasks[index];
+    $('ranking-title').textContent=overall?(paper?'Paper reference ranking':'Community ranking'):`${task} · ${paper?'paper reference':'community'}`;
+    $('entry-count').textContent=harness==='all'?`${ranked.length} configuration${ranked.length===1?'':'s'}`:`${ranked.length} of ${ranking(data,task).length} configurations`;
+    $('value-heading').textContent=overall?'Avg. rank':paper?'Relative gain':t.metric;
+    $('metric-note').textContent=overall?'Average of six task ranks · lower is better.':paper?`${t.name} · ${t.metric} · reference baseline ${t.baseline_score.toFixed(4)}`:`${t.name} · ${t.metric} · higher is better.`;
+    $('ranking-caption').textContent=overall?'Overall positions from six task ranks within the selected cohort.':`${task} ${paper?'paper-reference gains and ':''}mean test scores with standard deviations.`;
+    const body=$('ranking-rows');body.replaceChildren();
+    ranked.forEach(({row,value,rank,isLeader})=>{
+      const tr=element('tr',undefined,isLeader?'leader-row':''),rankCell=element('td');rankCell.append(element('span',String(rank),`rank${rank<=3?' top':''}`));tr.append(rankCell,identityCell(row));
+      const result=element('td',undefined,'result');result.append(element('strong',overall?value.toFixed(2):paper?signed(value):fixedFour(value),overall?'gain mean-rank':paper?`gain ${value<0?'negative':'positive'}`:'gain mean-rank'));
+      if(!overall){const text=paper?`${row.scores[index].toFixed(4)} ± ${row.sd[index].toFixed(4)}`:`SD ${fixedFour(row.sd[index])} · ${row.trial_counts[index]} trials`,raw=element('span',text,'raw-score');raw.setAttribute('aria-label',`Mean ${t.metric} ${row.scores[index].toFixed(4)}, standard deviation ${row.sd[index].toFixed(4)}, ${row.trial_counts[index]} trials`);result.append(raw);}
+      tr.append(result);body.append(tr);
+    });
+    if(!ranked.length){const cell=element('td',paper?'No reference results in this selection.':data.rows.length?'No results match this harness.':'No reviewed community submissions yet.','empty');cell.colSpan=3;const row=element('tr');row.append(cell);body.append(row);}
+    let note=paper?'Historical paper reference results.':'Reviewed community results · same data revision and protocol.';
+    if(!overall&&ranked.length){const counts=ranked.map(({row})=>row.trial_counts[index]);if(new Set(counts).size===1)note+=` Mean ± SD across ${counts[0]} trials.`;else{const max=Math.max(...counts),exceptions=ranked.filter(({row})=>row.trial_counts[index]!==max).map(({row})=>`${row.model} × ${row.harness} (${row.trial_counts[index]})`);note+=` Mean ± SD across ${max} trials, except ${exceptions.join('; ')}.`;}}
+    $('table-note').textContent=note;
+    $('rank-breakdown').hidden=!overall||!ranked.length;
+    if(overall){const header=element('tr');['LLM / harness',...data.task_order,'Avg. rank'].forEach(label=>{const th=element('th',label);th.scope='col';header.append(th);});$('rank-detail-head').replaceChildren(header);$('rank-detail-rows').replaceChildren();ranked.forEach(({row,taskRanks,meanRank})=>{const tr=element('tr');tr.append(identityCell(row));taskRanks.forEach(rank=>tr.append(element('td',String(rank))));tr.append(element('td',meanRank.toFixed(2)));$('rank-detail-rows').append(tr);});}
+    $('data-links').hidden=!paper&&!data.rows.length;$('csv-download').hidden=!paper;$('json-download').href=paper?'leaderboard-data.json':'community-leaderboard.json';
+    $('load-status').textContent=errors[cohort];$('load-status').hidden=!errors[cohort];
+    $('ranking-status').textContent=`${paper?'Historical paper references':'Community '+data.metadata.data_revision}, ${$('ranking-title').textContent}, ${ranked.length} configurations.`;
+    resize();
+  }
+  let resizeFrame;
+  function resize(){if(!embedded||window.parent===window)return;cancelAnimationFrame(resizeFrame);resizeFrame=requestAnimationFrame(()=>{const height=Math.ceil(document.querySelector('main').getBoundingClientRect().height);window.parent.postMessage({type:'autorse-leaderboard-height',height},'https://ray-tiann.github.io');});}
+  for(const id of ['cohort-filter','task-filter','harness-filter'])$(id).addEventListener('change',()=>{if(id==='cohort-filter')setupOptions();render();});
+  if(!validData(paperSeed)||!validData(emptyCommunity))throw Error('Invalid bundled cohort data');setupOptions();render();
+  async function load(cohort,file){try{const response=await fetch(file,{cache:'no-cache'});if(cohort==='community'&&response.status===404){boards.community=emptyCommunity;}else{if(!response.ok)throw Error('Unavailable');const next=await response.json();if(!validData(next)||isPaper(next)!==(cohort==='paper'))throw Error('Invalid cohort');boards[cohort]=next;}}catch{errors[cohort]=cohort==='community'?'Community results are unavailable; no unreviewed results are displayed.':'Showing bundled historical results; refreshed paper data is unavailable.';}setupOptions();render();}
+  load('community','community-leaderboard.json');load('paper','leaderboard-data.json');
+  document.querySelectorAll('details').forEach(d=>d.addEventListener('toggle',resize));if('ResizeObserver'in window)new ResizeObserver(resize).observe(document.querySelector('main'));window.addEventListener('resize',resize);window.addEventListener('load',resize);
+})();
+</script>
+</body>
+</html>

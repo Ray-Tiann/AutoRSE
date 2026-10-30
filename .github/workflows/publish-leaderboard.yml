@@ -1,0 +1,97 @@
+name: Publish reviewed leaderboard
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "leaderboard/submissions/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: autorse-leaderboard-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    permissions:
+      contents: read
+      pull-requests: read
+      id-token: write
+    steps:
+      - name: Check out the main snapshot with history
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+
+      - name: Install trusted publisher dependencies
+        run: python -m pip install --disable-pip-version-check -r leaderboard/requirements.txt
+
+      - name: Check current main and qualified GitHub reviews
+        id: review
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          PYTHONPATH: leaderboard
+        run: |
+          python -m autorse_leaderboard.github_review collect \
+            --repository "$GITHUB_REPOSITORY" \
+            --sha "$GITHUB_SHA" \
+            --submissions-dir leaderboard/submissions \
+            --approved-dir "$RUNNER_TEMP/approved-submissions" \
+            --output "$RUNNER_TEMP/approval-ledger.json"
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          ledger = json.loads((Path(os.environ["RUNNER_TEMP"]) / "approval-ledger.json").read_text())
+          with open(os.environ["GITHUB_OUTPUT"], "a") as output:
+              output.write("approved_count=" + str(len(ledger["approvals"])) + "\n")
+          PY
+
+      - name: Verify the live trusted publisher without submitting scores
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ github.token }}
+          HF_OIDC_RESOURCE: spaces/Ray0311/AutoRSE-Leaderboard
+          PYTHONPATH: leaderboard
+        run: |
+          python -m autorse_leaderboard.cli check-publisher \
+            --repo-id Ray0311/AutoRSE-Leaderboard \
+            --sha "$GITHUB_SHA"
+
+      - name: Revalidate and publish the approved snapshot
+        if: steps.review.outcome == 'success' && steps.review.outputs.approved_count != '0'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ github.token }}
+          HF_OIDC_RESOURCE: spaces/Ray0311/AutoRSE-Leaderboard
+          PYTHONPATH: leaderboard
+        run: |
+          python -m autorse_leaderboard.cli publish \
+            --submissions-dir "$RUNNER_TEMP/approved-submissions" \
+            --keys leaderboard/trusted-keys.json \
+            --approval-ledger "$RUNNER_TEMP/approval-ledger.json" \
+            --output-dir "$RUNNER_TEMP/leaderboard-output" \
+            --repo-id Ray0311/AutoRSE-Leaderboard
+
+      - name: Save review and publication evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: leaderboard-publication-${{ github.sha }}
+          path: |
+            ${{ runner.temp }}/approval-ledger.json
+            ${{ runner.temp }}/leaderboard-output
+          if-no-files-found: ignore
+          retention-days: 90

@@ -248,29 +248,42 @@ and export.
 all hidden identities, compute NDCG/AUC, or establish that the research completed
 successfully. Review trial logs and artifact collection before submitting.
 
-## 5. Upload to Hugging Face and read the score
+## 5. Score all six tasks
 
-1. Open the [AutoRSE scoring Space](https://huggingface.co/spaces/RayTian/AutoRSE).
-2. Sign in using the **Hugging Face login** button.
-3. Select the task corresponding to your prediction file.
-4. Upload the single `.npz`, `.csv`, or `.csv.gz` file from step 4, then click
-   **Submit for scoring**. Do not upload data, weights, executables, source code,
-   or the outer data/source ZIP.
-5. Read the returned JSON. `metric` names the main metric; its value is in
-   `metrics[metric]`. Keep `task`, `data_revision`, `public_bundle_sha256`,
-   `submission_sha256`, and the returned metrics with your experiment record.
+Open the [official AutoRSE evaluator](https://huggingface.co/spaces/Ray0311/AutoRSE-Evaluator)
+and sign in with Hugging Face. Upload **one ZIP** with exactly these paths, without
+an enclosing directory:
 
-All six main metrics are **higher is better**. IntSR's main score is the unweighted
-mean of recommendation and search NDCG@10; the two components are also returned.
-CTR tasks return AUC with auxiliary logloss (lower is better); OneTrans also
-returns user AUC. Hidden labels and per-example correctness are never returned.
+```text
+hstu/submission.npz
+intsr/submission.npz
+tiger/submission.npz
+onetrans/submission.csv
+rankmixer/submission.npz
+wukong/submission.csv.gz
+```
 
-The current application defaults to **160 MiB per file** and **five attempts per
-account/task/UTC day**; invalid attempts count. Check formats before uploading.
-A deployment may change the daily limit. If the Space is unavailable, unconfigured,
-or reports a scoring error, there is no completed official score for that attempt;
-do not substitute the local format reward or treat the error as a model score of 0.
-For ID/order errors, verify the task, v2 data revision, row count, and candidate order.
+Click **Evaluate all six tasks** and download the signed JSON receipt. All six
+primary metrics are higher-is-better. The receipt binds the participant, public
+data revision, prediction hashes, evaluator version and six scores. Hidden labels
+and per-example correctness are never returned. There are five complete ZIP
+attempts per account per UTC day; invalid attempts count. ZIP size is limited to
+512 MiB, with each member at most 160 MiB. The quota resets when the free Space
+restarts. An error produces no complete score and is not a model result of zero.
+
+## 6. Submit a reproducible leaderboard entry
+
+We welcome new agents, harnesses and recommendation research ideas. Run three
+independent trials on every task, collect three signed six-task receipts and
+publish the corresponding code, report, configuration, provenance and trajectories.
+Use the [submission guide](leaderboard/SUBMIT.md) to validate the evidence and open
+one result PR. Automated checks precede a maintainer's review; after approval and
+merge, the community leaderboard updates automatically.
+
+The [leaderboard](https://huggingface.co/spaces/Ray0311/AutoRSE-Leaderboard) orders
+complete configurations by equal-weight mean task rank (lower is better), with
+historical paper results in a separate view. Demo scores cannot enter the ranking.
+A numeric score alone does not establish protocol compliance.
 
 ## Reporting a comparable result
 

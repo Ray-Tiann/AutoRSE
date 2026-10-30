@@ -1,0 +1,910 @@
+{
+  "schema_version": 1,
+  "id": "your-agent-model-version",
+  "kind": "benchmark",
+  "configuration": {
+    "name": "",
+    "agent": "",
+    "harness": "",
+    "agent_version": "",
+    "model": "",
+    "model_version": "",
+    "framework_commit": "",
+    "code_url": ""
+  },
+  "protocol": {
+    "data_revision": "autorse-public-v2-20261029",
+    "public_bundle_sha256": "4185fa03339cd37df9591906ef1e2e309beec6b3676e724d2c60916b13679414",
+    "research_budget_seconds": 43200,
+    "gpus_per_run": 1
+  },
+  "receipts": [],
+  "runs": [
+    {
+      "task": "hstu",
+      "trial_index": 1,
+      "run_id": "hstu-trial-1",
+      "seed": 2024,
+      "receipt_evaluation_id": "",
+      "prediction_sha256": "",
+      "code_commit": "",
+      "agent_started_at": "",
+      "agent_finished_at": "",
+      "gpus": 1,
+      "artifacts": {
+        "code": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "report": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "trajectory": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "config": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "provenance": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        }
+      }
+    },
+    {
+      "task": "intsr",
+      "trial_index": 1,
+      "run_id": "intsr-trial-1",
+      "seed": 2024,
+      "receipt_evaluation_id": "",
+      "prediction_sha256": "",
+      "code_commit": "",
+      "agent_started_at": "",
+      "agent_finished_at": "",
+      "gpus": 1,
+      "artifacts": {
+        "code": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "report": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "trajectory": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "config": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "provenance": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        }
+      }
+    },
+    {
+      "task": "tiger",
+      "trial_index": 1,
+      "run_id": "tiger-trial-1",
+      "seed": 2024,
+      "receipt_evaluation_id": "",
+      "prediction_sha256": "",
+      "code_commit": "",
+      "agent_started_at": "",
+      "agent_finished_at": "",
+      "gpus": 1,
+      "artifacts": {
+        "code": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "report": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "trajectory": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "config": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "provenance": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        }
+      }
+    },
+    {
+      "task": "onetrans",
+      "trial_index": 1,
+      "run_id": "onetrans-trial-1",
+      "seed": 2024,
+      "receipt_evaluation_id": "",
+      "prediction_sha256": "",
+      "code_commit": "",
+      "agent_started_at": "",
+      "agent_finished_at": "",
+      "gpus": 1,
+      "artifacts": {
+        "code": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "report": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "trajectory": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "config": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "provenance": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        }
+      }
+    },
+    {
+      "task": "rankmixer",
+      "trial_index": 1,
+      "run_id": "rankmixer-trial-1",
+      "seed": 2024,
+      "receipt_evaluation_id": "",
+      "prediction_sha256": "",
+      "code_commit": "",
+      "agent_started_at": "",
+      "agent_finished_at": "",
+      "gpus": 1,
+      "artifacts": {
+        "code": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "report": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "trajectory": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "config": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "provenance": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        }
+      }
+    },
+    {
+      "task": "wukong",
+      "trial_index": 1,
+      "run_id": "wukong-trial-1",
+      "seed": 2024,
+      "receipt_evaluation_id": "",
+      "prediction_sha256": "",
+      "code_commit": "",
+      "agent_started_at": "",
+      "agent_finished_at": "",
+      "gpus": 1,
+      "artifacts": {
+        "code": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "report": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "trajectory": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "config": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "provenance": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        }
+      }
+    },
+    {
+      "task": "hstu",
+      "trial_index": 2,
+      "run_id": "hstu-trial-2",
+      "seed": 2025,
+      "receipt_evaluation_id": "",
+      "prediction_sha256": "",
+      "code_commit": "",
+      "agent_started_at": "",
+      "agent_finished_at": "",
+      "gpus": 1,
+      "artifacts": {
+        "code": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "report": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "trajectory": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "config": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "provenance": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        }
+      }
+    },
+    {
+      "task": "intsr",
+      "trial_index": 2,
+      "run_id": "intsr-trial-2",
+      "seed": 2025,
+      "receipt_evaluation_id": "",
+      "prediction_sha256": "",
+      "code_commit": "",
+      "agent_started_at": "",
+      "agent_finished_at": "",
+      "gpus": 1,
+      "artifacts": {
+        "code": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "report": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "trajectory": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "config": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "provenance": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        }
+      }
+    },
+    {
+      "task": "tiger",
+      "trial_index": 2,
+      "run_id": "tiger-trial-2",
+      "seed": 2025,
+      "receipt_evaluation_id": "",
+      "prediction_sha256": "",
+      "code_commit": "",
+      "agent_started_at": "",
+      "agent_finished_at": "",
+      "gpus": 1,
+      "artifacts": {
+        "code": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "report": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "trajectory": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "config": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "provenance": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        }
+      }
+    },
+    {
+      "task": "onetrans",
+      "trial_index": 2,
+      "run_id": "onetrans-trial-2",
+      "seed": 2025,
+      "receipt_evaluation_id": "",
+      "prediction_sha256": "",
+      "code_commit": "",
+      "agent_started_at": "",
+      "agent_finished_at": "",
+      "gpus": 1,
+      "artifacts": {
+        "code": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "report": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "trajectory": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "config": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "provenance": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        }
+      }
+    },
+    {
+      "task": "rankmixer",
+      "trial_index": 2,
+      "run_id": "rankmixer-trial-2",
+      "seed": 2025,
+      "receipt_evaluation_id": "",
+      "prediction_sha256": "",
+      "code_commit": "",
+      "agent_started_at": "",
+      "agent_finished_at": "",
+      "gpus": 1,
+      "artifacts": {
+        "code": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "report": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "trajectory": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "config": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "provenance": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        }
+      }
+    },
+    {
+      "task": "wukong",
+      "trial_index": 2,
+      "run_id": "wukong-trial-2",
+      "seed": 2025,
+      "receipt_evaluation_id": "",
+      "prediction_sha256": "",
+      "code_commit": "",
+      "agent_started_at": "",
+      "agent_finished_at": "",
+      "gpus": 1,
+      "artifacts": {
+        "code": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "report": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "trajectory": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "config": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "provenance": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        }
+      }
+    },
+    {
+      "task": "hstu",
+      "trial_index": 3,
+      "run_id": "hstu-trial-3",
+      "seed": 2026,
+      "receipt_evaluation_id": "",
+      "prediction_sha256": "",
+      "code_commit": "",
+      "agent_started_at": "",
+      "agent_finished_at": "",
+      "gpus": 1,
+      "artifacts": {
+        "code": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "report": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "trajectory": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "config": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "provenance": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        }
+      }
+    },
+    {
+      "task": "intsr",
+      "trial_index": 3,
+      "run_id": "intsr-trial-3",
+      "seed": 2026,
+      "receipt_evaluation_id": "",
+      "prediction_sha256": "",
+      "code_commit": "",
+      "agent_started_at": "",
+      "agent_finished_at": "",
+      "gpus": 1,
+      "artifacts": {
+        "code": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "report": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "trajectory": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "config": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "provenance": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        }
+      }
+    },
+    {
+      "task": "tiger",
+      "trial_index": 3,
+      "run_id": "tiger-trial-3",
+      "seed": 2026,
+      "receipt_evaluation_id": "",
+      "prediction_sha256": "",
+      "code_commit": "",
+      "agent_started_at": "",
+      "agent_finished_at": "",
+      "gpus": 1,
+      "artifacts": {
+        "code": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "report": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "trajectory": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "config": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "provenance": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        }
+      }
+    },
+    {
+      "task": "onetrans",
+      "trial_index": 3,
+      "run_id": "onetrans-trial-3",
+      "seed": 2026,
+      "receipt_evaluation_id": "",
+      "prediction_sha256": "",
+      "code_commit": "",
+      "agent_started_at": "",
+      "agent_finished_at": "",
+      "gpus": 1,
+      "artifacts": {
+        "code": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "report": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "trajectory": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "config": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "provenance": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        }
+      }
+    },
+    {
+      "task": "rankmixer",
+      "trial_index": 3,
+      "run_id": "rankmixer-trial-3",
+      "seed": 2026,
+      "receipt_evaluation_id": "",
+      "prediction_sha256": "",
+      "code_commit": "",
+      "agent_started_at": "",
+      "agent_finished_at": "",
+      "gpus": 1,
+      "artifacts": {
+        "code": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "report": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "trajectory": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "config": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "provenance": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        }
+      }
+    },
+    {
+      "task": "wukong",
+      "trial_index": 3,
+      "run_id": "wukong-trial-3",
+      "seed": 2026,
+      "receipt_evaluation_id": "",
+      "prediction_sha256": "",
+      "code_commit": "",
+      "agent_started_at": "",
+      "agent_finished_at": "",
+      "gpus": 1,
+      "artifacts": {
+        "code": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "report": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "trajectory": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "config": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        },
+        "provenance": {
+          "repo_id": "YOUR-HF-USERNAME/YOUR-PUBLIC-EVIDENCE-DATASET",
+          "revision": "",
+          "path": "",
+          "sha256": "",
+          "size": 0
+        }
+      }
+    }
+  ],
+  "acknowledgements": {
+    "public_evidence": false,
+    "protocol_followed": false
+  }
+}

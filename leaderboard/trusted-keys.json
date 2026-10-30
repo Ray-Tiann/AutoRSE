@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "keys": {
+    "autorse-666790c6a1732825": {
+      "algorithm": "Ed25519",
+      "public_key": "4CtyvMtCdq/jFml37/t2RzmLi8kfGnoZs2cPFbwvLhU=",
+      "not_before": "2026-10-30T13:25:04.550290+00:00",
+      "evaluator": "https://huggingface.co/spaces/Ray0311/AutoRSE-Evaluator"
+    }
+  }
+}

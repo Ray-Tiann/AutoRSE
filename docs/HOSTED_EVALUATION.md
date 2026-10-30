@@ -1,5 +1,27 @@
 # Hosted evaluation on Hugging Face
 
+## Official live service
+
+The official evaluator is [Ray0311/AutoRSE-Evaluator](https://huggingface.co/spaces/Ray0311/AutoRSE-Evaluator).
+It uses free ZeroGPU for the fixed test metrics and accepts one complete six-task
+prediction ZIP per evaluation. Download its signed receipt; collect three
+independent complete trial sets for a formal submission. Demo receipts are
+excluded from the community ranking. See the [submission guide](../leaderboard/SUBMIT.md)
+for the ZIP/run evidence, review and automatic publication process.
+
+The current deployed application source is public in the
+[evaluator Space](https://huggingface.co/spaces/Ray0311/AutoRSE-Evaluator/tree/main).
+The private evaluator remains private. The receipt verification public keys are
+in [trusted-keys.json](../leaderboard/trusted-keys.json); no signing private key
+belongs in GitHub or a participant submission.
+
+The current hosted service is separate from the self-hosted CPU reference below.
+The CPU template does not issue official signed community leaderboard receipts.
+Public input hosting is a separate release step: the installer examples below
+are not evidence that their example dataset repository has been populated.
+
+## Self-hosted CPU reference setup
+
 Participants run models/agents locally, select configurations using public validation
 data, then upload **only the prediction file** to the AutoRSE Space. Hidden test
 labels remain in a private Dataset owned by the maintainers. The public validator
@@ -14,7 +36,7 @@ checks formats; it does not compute a hidden-test score.
 | `RayTian/AutoRSE` (Space, Docker) | Public or protected | Application source, no labels or tokens |
 
 Dataset and Space may have the same name; they are different repository types.
-There is no official hosted endpoint until the owner completes this setup.
+These names are reference setup examples; they do not identify the live service above.
 
 ## 1. Upload public inputs
 
