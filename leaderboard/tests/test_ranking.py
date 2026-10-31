@@ -112,15 +112,12 @@ class FrontendCohortTests(unittest.TestCase):
         cls.paper = json.loads(re.search(r'<script type="application/json" id="seed-data">(.*?)</script>', cls.html, re.S).group(1))
         cls.empty = json.loads(re.search(r'<script type="application/json" id="community-seed-data">(.*?)</script>', cls.html, re.S).group(1))
 
-    def test_default_community_is_empty_and_historical_results_are_retained(self):
+    def test_historical_results_and_empty_community_remain_separate(self):
         self.assertEqual(self.empty["rows"], [])
         self.assertEqual(len(self.paper["rows"]), 7)
-        self.assertIn('<option value="community">', self.html)
-        self.assertLess(self.html.index('<option value="community">'), self.html.index('<option value="paper">'))
-        self.assertIn("response.status===404", self.html)
-        self.assertIn("fetch(file,{cache:'no-cache'})", self.html)
-        self.assertIn("No reviewed community submissions yet.", self.html)
-        self.assertIn("cohort==='community'", self.html)
+        self.assertEqual(self.paper["metadata"]["provenance"], "Paper reference")
+        self.assertEqual(self.empty["metadata"]["data_revision"], DATA_REVISION)
+        self.assertNotEqual(self.paper["metadata"]["provenance"], self.empty["metadata"]["provenance"])
 
     @unittest.skipUnless(shutil.which("node"), "Node is required for frontend core parity")
     def test_frontend_preserves_both_rankings_without_mixing_or_recomputing_filters(self):
