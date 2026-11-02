@@ -24,7 +24,7 @@ For a host-managed CUDA environment, install that task's environment requirement
 and use `tools/run_baseline.py --task TASK --local`. The Python CLI supports
 `--dry-run` without Docker, PyTorch, data, or API credentials.
 
-Optional Harbor orchestration uses a separate Python 3.12+ host environment:
+Optional Harbor orchestration uses a separate Python 3.12 host environment:
 
 ```bash
 python3 -m pip install -r requirements-harbor.txt

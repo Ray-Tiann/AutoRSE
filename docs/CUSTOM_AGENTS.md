@@ -20,7 +20,7 @@ is supplied for it.
 ## Prepare once
 
 Follow the [runtime and public-data setup](../README.md) on a Linux machine with
-one available NVIDIA GPU, Docker and NVIDIA Container Toolkit. Use a Python 3.12+
+one available NVIDIA GPU, Docker and NVIDIA Container Toolkit. Use a Python 3.12
 host environment and the pinned orchestration dependency:
 
 ```bash

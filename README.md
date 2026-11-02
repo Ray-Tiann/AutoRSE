@@ -93,14 +93,14 @@ constraints, input layout, and required prediction schema.
 ### Prepare the runtime
 
 For GPU experiments, use **Linux**, an NVIDIA GPU, a CUDA-12.1-compatible driver,
-Docker, and NVIDIA Container Toolkit. Use **Python 3.12+** on the host; the optional
+Docker, and NVIDIA Container Toolkit. Use **Python 3.12** on the host; the optional
 agent runner is pinned to Harbor 0.18.0. Docker Desktop on macOS cannot run this
 NVIDIA GPU protocol. Data installation and format validation do not require a GPU.
 
 ```bash
 git clone https://github.com/Ray-Tiann/AutoRSE.git
 cd AutoRSE
-python3 -m venv .venv
+python3.12 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
 bash tools/build_images.sh
