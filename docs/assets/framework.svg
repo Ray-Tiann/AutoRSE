@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="440" viewBox="0 0 1440 440" role="img" aria-labelledby="title desc">
+  <title id="title">How the AutoRSE evaluation framework works</title>
+  <desc id="desc">A task workspace supplies baseline code and public data. Your agent iterates using public validation, records experiments on Git branches, selects code and predictions, and submits a complete six-task ZIP for hosted hidden-test evaluation. Hidden scores do not feed the research loop.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="m0 0 10 5-10 5z" fill="#64748b"/></marker>
+    <marker id="loop" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="m0 0 10 5-10 5z" fill="#0d9488"/></marker>
+  </defs>
+  <rect width="1440" height="440" rx="20" fill="#f8fafc"/>
+  <g font-family="Inter,Segoe UI,Arial,sans-serif">
+    <text x="30" y="43" fill="#102542" font-size="26" font-weight="700">Your agent does the research. AutoRSE provides the evaluation framework.</text>
+    <text x="30" y="74" fill="#475569" font-size="18">Six tasks · public-validation selection · versioned evidence · separate hidden-test scoring</text>
+    <g stroke-width="1.5">
+      <rect x="30" y="105" width="255" height="230" rx="14" fill="#fff" stroke="#cbd5e1"/>
+      <rect x="328" y="105" width="421" height="230" rx="14" fill="#f0fdfa" stroke="#99d8d1"/>
+      <rect x="792" y="105" width="255" height="230" rx="14" fill="#fff" stroke="#cbd5e1"/>
+      <rect x="1090" y="105" width="320" height="230" rx="14" fill="#eff6ff" stroke="#bfdbfe"/>
+    </g>
+    <g fill="none" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"><path d="M288 220h32"/><path d="M752 220h32"/><path d="M1050 220h32"/></g>
+    <g font-size="16" font-weight="700">
+      <text x="50" y="139" fill="#64748b">01 / TASK WORKSPACE</text><text x="350" y="139" fill="#0f766e">02 / YOUR RESEARCH AGENT</text><text x="812" y="139" fill="#64748b">03 / FINAL SELECTION</text><text x="1112" y="139" fill="#2563eb">04 / HOSTED EVALUATION</text>
+    </g>
+    <g fill="#102542" font-size="22" font-weight="700"><text x="50" y="181">Start from a baseline</text><text x="350" y="181">Propose, edit, run, analyze</text><text x="812" y="181">Preserve the best</text><text x="1112" y="181">Score all six tasks</text></g>
+    <g fill="#475569" font-size="19">
+      <text x="50" y="222">Source + task instructions</text><text x="50" y="254">Train / validation inputs</text><text x="50" y="286">Unlabeled test inputs</text>
+      <text x="350" y="222">Model × harness · bounded research budget</text><text x="350" y="254">Public validation guides each iteration</text><text x="350" y="286">Git branches + results + complete trajectory</text>
+      <text x="812" y="222">Selected source + history</text><text x="812" y="254">Commit + prediction SHA</text><text x="812" y="286">Exact test predictions</text>
+      <text x="1112" y="222">One ZIP → private evaluator</text><text x="1112" y="254">Aggregate task metrics</text><text x="1112" y="286">Signed receipt → reviewed entry</text>
+    </g>
+    <path d="M695 307v56H384v-56" stroke="#0d9488" stroke-width="2" fill="none" marker-end="url(#loop)"/>
+    <rect x="422" y="350" width="237" height="28" rx="14" fill="#f0fdfa"/><text x="540" y="370" text-anchor="middle" fill="#0f766e" font-size="17" font-weight="600">Iterate on public validation</text>
+    <text x="30" y="411" fill="#475569" font-size="18">The evaluator retains hidden labels. Hidden-test feedback must not guide research or candidate selection.</text>
+  </g>
+</svg>

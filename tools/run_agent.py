@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 from importlib.metadata import PackageNotFoundError, version
 import json
+import keyword
 import os
 from pathlib import Path
 import shlex
@@ -19,29 +20,45 @@ ADAPTERS = {'codex': 'tools.persistent_codex:PersistentCodex',
             'terminus-2': 'tools.persistent_terminus_2:PersistentTerminus2'}
 
 
+def agent_import_path(value):
+    """Validate syntax without importing user code or requiring Harbor for dry-run."""
+    module, separator, class_name = value.partition(':')
+    names = [*module.split('.'), class_name]
+    if not separator or not all(name.isidentifier() and not keyword.iskeyword(name) for name in names):
+        raise argparse.ArgumentTypeError('Use an absolute Python import path in module.path:ClassName format')
+    return value
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--task', choices=TASKS, required=True)
-    parser.add_argument('--agent', choices=ADAPTERS, required=True)
+    selection = parser.add_mutually_exclusive_group(required=True)
+    selection.add_argument('--agent', choices=ADAPTERS, help='Use a supplied persistent agent adapter')
+    selection.add_argument('--agent-import-path', type=agent_import_path, metavar='MODULE:CLASS',
+                           help='Import your Harbor agent; it manages research timing, resumption, and finalization')
     parser.add_argument('--model', required=True, help='Model identifier accepted by the selected Harbor harness')
     parser.add_argument('--api-env-file', type=Path, help='Private credentials outside the checkout')
     parser.add_argument('--gpu', default='0')
     parser.add_argument('--seed', type=int, default=2024)
     parser.add_argument('--minimum-runtime-sec', type=int, default=43200)
     parser.add_argument('--finalization-grace-sec', type=int, default=300)
-    parser.add_argument('--no-persistence', action='store_true')
+    parser.add_argument('--no-persistence', action='store_true',
+                        help='Use the unmodified Harbor harness; only valid with --agent')
     parser.add_argument('--jobs-dir', type=Path, default=ROOT / 'runs')
     parser.add_argument('--job-name', help='Optional Harbor job name; choose a new name for each run')
     parser.add_argument('--dry-run', action='store_true')
     parser.add_argument('harbor_args', nargs=argparse.REMAINDER, help='Additional Harbor flags after --')
     args = parser.parse_args()
+    if args.agent_import_path and args.no_persistence:
+        parser.error('--no-persistence applies only to --agent; imported agents manage their own supervisor')
     if not args.gpu or any(c in args.gpu for c in ', \t\n'):
         parser.error('--gpu must name exactly one GPU')
     if min(args.minimum_runtime_sec, args.finalization_grace_sec) <= 0:
         parser.error('Research and finalization durations must be positive')
     if args.minimum_runtime_sec + args.finalization_grace_sec > 43500:
         parser.error('Combined durations must fit the 43500-second task research/finalization window')
-    adapter = args.agent if args.no_persistence else ADAPTERS[args.agent]
+    adapter = args.agent_import_path or (args.agent if args.no_persistence else ADAPTERS[args.agent])
+    supplied_persistence = not args.agent_import_path and not args.no_persistence
     command = ['harbor', 'run', '--path', str(BENCHMARK / f'tasks/{args.task}_task'),
                '--agent', adapter, '--model', args.model, '--env', 'docker',
                '--n-concurrent', '1', '--n-attempts', '1', '--jobs-dir', str(args.jobs_dir.resolve()), '--yes',
@@ -50,7 +67,7 @@ def main():
         command += ['--job-name', args.job_name]
     if args.api_env_file:
         command += ['--env-file', str(args.api_env_file.expanduser().resolve())]
-    if not args.no_persistence:
+    if args.agent_import_path or supplied_persistence:
         for key, value in [('minimum_runtime_sec', args.minimum_runtime_sec),
                            ('finalization_grace_sec', args.finalization_grace_sec),
                            ('research_seed', args.seed)]:
@@ -65,7 +82,9 @@ def main():
     if args.dry_run:
         print(json.dumps({'cwd': str(BENCHMARK), 'command': shlex.join(command),
                           'gpu': args.gpu, 'research_seconds': args.minimum_runtime_sec,
-                          'persistence': not args.no_persistence,
+                          'persistence': supplied_persistence,
+                          'supervision': ('custom_agent' if args.agent_import_path else
+                                          'supplied_adapter' if supplied_persistence else 'harbor_harness'),
                           'local_verifier': 'format_only_not_official_score', 'agent_started': False}))
         return
     try:

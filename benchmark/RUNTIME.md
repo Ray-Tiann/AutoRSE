@@ -41,7 +41,14 @@ its chat and tmux session. These three persistence adapters default to 43,200
 research seconds plus a bounded 300-second finalization phase. The supervisor
 resumes early completions. Short infrastructure smokes may set
 `--minimum-runtime-sec 60 --finalization-grace-sec 30`; record those settings.
-`--no-persistence` invokes the unmodified Harbor harness.
+`--no-persistence` invokes the unmodified Harbor harness and is only available
+with the built-in `--agent` selector.
+
+Use `--agent-import-path module.path:ClassName` instead of `--agent` to load your
+own Harbor-compatible agent. It receives the research/finalization durations and
+seed, and must implement its own supervision or inherit a supplied persistent
+adapter. The [custom agent guide](../docs/CUSTOM_AGENTS.md) includes an importable
+policy example and explains the host interface, logs, and required artifacts.
 
 The shared image installs current Codex and Claude Code CLI releases unless you
 set `CODEX_VERSION` and `CLAUDE_CODE_VERSION` before building. Record resolved

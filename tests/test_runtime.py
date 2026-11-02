@@ -7,9 +7,11 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import shlex
 import subprocess
 import sys
 import tempfile
+from types import ModuleType
 import unittest
 from unittest.mock import patch
 
@@ -40,6 +42,69 @@ class RuntimeCliTests(unittest.TestCase):
                 self.assertEqual(report['research_seconds'], 43200)
                 self.assertEqual(report['local_verifier'], 'format_only_not_official_score')
                 self.assertFalse(report['agent_started'])
+
+    def test_custom_agent_dry_run_forwards_research_contract_and_harbor_options(self):
+        result = subprocess.run(
+            [sys.executable, str(ROOT / 'tools/run_agent.py'), '--task', 'hstu',
+             '--agent-import-path', 'my_research.agent:ResearchAgent',
+             '--model', 'provider/example', '--seed', '17', '--gpu', '1',
+             '--minimum-runtime-sec', '60', '--finalization-grace-sec', '30',
+             '--job-name', 'custom-smoke', '--dry-run', '--',
+             '--agent-kwarg', 'temperature=0.2'],
+            capture_output=True, text=True, check=True)
+        report = json.loads(result.stdout)
+        command = shlex.split(report['command'])
+        self.assertEqual(command[command.index('--agent') + 1], 'my_research.agent:ResearchAgent')
+        self.assertNotIn('--agent-import-path', command)
+        for value in ('minimum_runtime_sec=60', 'finalization_grace_sec=30',
+                      'research_seed=17', 'RESEARCH_SEED=17', 'temperature=0.2'):
+            self.assertIn(value, command)
+        self.assertEqual(command[command.index('--job-name') + 1], 'custom-smoke')
+        self.assertEqual(report['supervision'], 'custom_agent')
+        self.assertFalse(report['persistence'])
+        self.assertFalse(report['agent_started'])
+        self.assertEqual(report['local_verifier'], 'format_only_not_official_score')
+
+    def test_agent_selection_is_required_and_mutually_exclusive(self):
+        for selection in ([], ['--agent', 'codex', '--agent-import-path', 'my_agent:Agent']):
+            with self.subTest(selection=selection):
+                result = subprocess.run(
+                    [sys.executable, str(ROOT / 'tools/run_agent.py'), '--task', 'hstu',
+                     '--model', 'provider/example', '--dry-run', *selection],
+                    capture_output=True, text=True)
+                self.assertEqual(result.returncode, 2)
+
+    def test_custom_import_path_rejects_malformed_module_and_class_names(self):
+        for path in ('my_agent', 'my_agent:Agent:Other', '.my_agent:Agent',
+                     'my..agent:Agent', 'my-agent:Agent', 'my_agent:',
+                     'my_agent:class', 'my/agent:Agent'):
+            with self.subTest(import_path=path):
+                result = subprocess.run(
+                    [sys.executable, str(ROOT / 'tools/run_agent.py'), '--task', 'hstu',
+                     '--agent-import-path', path, '--model', 'provider/example', '--dry-run'],
+                    capture_output=True, text=True)
+                self.assertEqual(result.returncode, 2)
+                self.assertIn('module.path:ClassName', result.stderr)
+
+    def test_custom_agent_cannot_disable_its_own_supervisor_through_builtin_switch(self):
+        result = subprocess.run(
+            [sys.executable, str(ROOT / 'tools/run_agent.py'), '--task', 'hstu',
+             '--agent-import-path', 'my_agent:Agent', '--model', 'provider/example',
+             '--no-persistence', '--dry-run'], capture_output=True, text=True)
+        self.assertEqual(result.returncode, 2)
+        self.assertIn('--no-persistence applies only to --agent', result.stderr)
+
+    def test_builtin_harness_without_persistence_keeps_its_native_agent_name(self):
+        result = subprocess.run(
+            [sys.executable, str(ROOT / 'tools/run_agent.py'), '--task', 'hstu',
+             '--agent', 'codex', '--model', 'provider/example',
+             '--no-persistence', '--dry-run'], capture_output=True, text=True, check=True)
+        report = json.loads(result.stdout)
+        command = shlex.split(report['command'])
+        self.assertEqual(command[command.index('--agent') + 1], 'codex')
+        self.assertNotIn('--agent-kwarg', command)
+        self.assertFalse(report['persistence'])
+        self.assertEqual(report['supervision'], 'harbor_harness')
 
     def test_multiple_gpus_rejected_for_single_gpu_protocol(self):
         result = subprocess.run([sys.executable, str(ROOT / 'tools/run_baseline.py'),
@@ -131,6 +196,77 @@ class HarborCompatibilityTests(unittest.IsolatedAsyncioTestCase):
             self.assertEqual(config.verifier.environment_mode, 'separate')
             self.assertEqual(config.metadata['local_metric'], 'format_valid_not_official_score')
             self.assertTrue(any(getattr(a, 'source', None) == '/workspace/artifact' for a in config.artifacts))
+
+    def test_custom_agent_command_constructs_the_research_agent_in_pinned_harbor(self):
+        from harbor.agents.base import BaseAgent
+        from harbor.agents.factory import AgentFactory
+        from harbor.cli.utils import parse_env_vars, parse_kwargs
+        from harbor.models.trial.config import AgentConfig
+
+        class ResearchAgent(BaseAgent):
+            def __init__(self, minimum_runtime_sec, finalization_grace_sec, research_seed, **kwargs):
+                super().__init__(**kwargs)
+                self.research_seconds = minimum_runtime_sec
+                self.finalization_seconds = finalization_grace_sec
+                self.research_seed = research_seed
+
+            @staticmethod
+            def name():
+                return 'custom-research-test'
+
+            def version(self):
+                return '0.1.0'
+
+            async def setup(self, environment):
+                pass
+
+            async def run(self, instruction, environment, context):
+                pass
+
+        module = ModuleType('autorse_test_custom_agent')
+        module.ResearchAgent = ResearchAgent
+        result = subprocess.run(
+            [sys.executable, str(ROOT / 'tools/run_agent.py'), '--task', 'hstu',
+             '--agent-import-path', 'autorse_test_custom_agent:ResearchAgent',
+             '--model', 'provider/example', '--seed', '17',
+             '--minimum-runtime-sec', '60', '--finalization-grace-sec', '30', '--dry-run'],
+            capture_output=True, text=True, check=True)
+        command = shlex.split(json.loads(result.stdout)['command'])
+        kwargs = parse_kwargs([command[i + 1] for i, value in enumerate(command) if value == '--agent-kwarg'])
+        environment = parse_env_vars([command[i + 1] for i, value in enumerate(command) if value == '--agent-env'])
+        config = AgentConfig(name=command[command.index('--agent') + 1],
+                             model_name=command[command.index('--model') + 1], kwargs=kwargs, env=environment)
+        with tempfile.TemporaryDirectory() as temp, patch.dict(sys.modules, {module.__name__: module}):
+            agent = AgentFactory.create_agent_from_config(config, logs_dir=Path(temp))
+            self.assertIsInstance(agent, ResearchAgent)
+            self.assertEqual(agent.research_seconds, 60)
+            self.assertEqual(agent.finalization_seconds, 30)
+            self.assertEqual(agent.research_seed, 17)
+            self.assertEqual(agent.model_name, 'provider/example')
+            self.assertEqual(agent.extra_env, {'RESEARCH_SEED': '17'})
+
+    async def test_shipped_custom_agent_inherits_the_persistent_supervisor(self):
+        from harbor.agents.factory import AgentFactory
+        from harbor.models.trial.config import AgentConfig
+
+        config = AgentConfig(name='custom_agents.evidence_agent:EvidenceAgent',
+                             model_name='openai/gpt-4o',
+                             kwargs={'minimum_runtime_sec': 60, 'finalization_grace_sec': 30,
+                                     'research_seed': 17}, env={'RESEARCH_SEED': '17'})
+        with tempfile.TemporaryDirectory() as temp:
+            agent = AgentFactory.create_agent_from_config(config, logs_dir=Path(temp))
+            self.assertIsInstance(agent, self.terminus_type)
+            self.assertEqual(agent.name(), 'evidence-agent')
+            self.assertEqual(agent.version(), '0.1.0')
+            self.assertEqual(agent.minimum_runtime_sec, 60)
+            self.assertEqual(agent.finalization_grace_sec, 30)
+            self.assertEqual(agent.research_seed, 17)
+            environment, context = object(), object()
+            with patch.object(self.terminus_type, 'run') as supervisor:
+                await agent.run('Task instruction', environment, context)
+                supervisor.assert_awaited_once_with(
+                    'Task instruction\n\nEXAMPLE RESEARCH POLICY:\n' + agent.RESEARCH_POLICY,
+                    environment, context)
 
     async def test_codex_session_survives_segments_and_native_resume_is_used(self):
         from harbor.agents.installed.base import BaseInstalledAgent

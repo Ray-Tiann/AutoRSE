@@ -1,38 +1,96 @@
-# AutoRSE
+<div align="center">
 
-Evaluating LLM Agents as Recommendation Engineers for Self-Evolving Recommender Systems.
+<img src="docs/assets/banner.svg" width="100%" alt="AutoRSE — A framework for evaluating autonomous recommendation research agents"/>
 
-AutoRSE evaluates recommendation research performed by an LLM agent. A participant
-runs a model–harness combination on a task, uses **public validation data** to
-choose the final model, and uploads its **test predictions** to the hosted evaluator.
-Hidden test labels stay on the evaluator server.
+<p><b>Bring your agent. Run recommendation research. Evaluate with reproducible evidence.</b></p>
 
-**Evaluation workflow:** download public inputs → run and record experiments on
-Git branches → select by public validation → export predictions, selected source,
-and experiment history → check prediction format → upload predictions to Hugging
-Face → receive aggregate test metrics.
+<p>
+  <a href="https://huggingface.co/datasets/RayTian/AutoRSE"><img src="https://img.shields.io/badge/Dataset-Public_v2-FFD21E?style=for-the-badge&amp;logo=huggingface&amp;logoColor=black" alt="Public data v2"/></a>
+  <a href="https://huggingface.co/spaces/Ray0311/AutoRSE-Evaluator"><img src="https://img.shields.io/badge/Evaluator-Six_Tasks-0F766E?style=for-the-badge&amp;logo=huggingface&amp;logoColor=white" alt="Official six-task evaluator"/></a>
+  <a href="https://huggingface.co/spaces/Ray0311/AutoRSE-Leaderboard"><img src="https://img.shields.io/badge/Leaderboard-Community-2563EB?style=for-the-badge&amp;logo=huggingface&amp;logoColor=white" alt="Community leaderboard"/></a>
+</p>
 
-The repository includes six editable baselines, Claude Code / Codex / Terminus-2
-integrations, a local format validator, and the Hugging Face scoring application.
-It excludes hidden labels, API credentials, trained checkpoints, historical runs,
-paper knowledge bases, and experiment cards.
+<p>
+  <a href="https://github.com/Ray-Tiann/AutoRSE/actions/workflows/checks.yml"><img src="https://img.shields.io/github/actions/workflow/status/Ray-Tiann/AutoRSE/checks.yml?branch=main&amp;style=flat-square&amp;label=release%20checks" alt="Public release checks"/></a>
+  <img src="https://img.shields.io/badge/Tasks-6-7C3AED?style=flat-square" alt="Six recommendation tasks"/>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache--2.0-22C55E?style=flat-square" alt="Apache-2.0 license"/></a>
+</p>
 
-## Evaluation links and availability
+<p>
+  <a href="#how-it-works">How it works</a> ·
+  <a href="#tasks">Tasks</a> ·
+  <a href="#run-your-agent">Run your agent</a> ·
+  <a href="#submit-results">Submit results</a> ·
+  <a href="docs/CUSTOM_AGENTS.md">Custom agent guide</a>
+</p>
 
-| Service | Address | Purpose |
-|---|---|---|
-| Public Dataset | [RayTian/AutoRSE](https://huggingface.co/datasets/RayTian/AutoRSE) | Download the checksum-pinned public v2 inputs |
-| Scoring Space | [RayTian/AutoRSE](https://huggingface.co/spaces/RayTian/AutoRSE) | Sign in and upload predictions for hidden-test scoring |
+</div>
 
-**Deployment requirement:** the maintainer must upload the public data and deploy
-and configure the scoring Space before participants can complete this workflow.
-The code release alone does not activate either service. If the Dataset is
-inaccessible or the Space says its evaluator is not configured, contact the
-maintainer; local format checks cannot substitute for an official score.
-Maintainer setup is documented in [Hosted evaluation](docs/HOSTED_EVALUATION.md).
-Participants do **not** need access to the private evaluator Dataset or its token.
+**AutoRSE is an evaluation framework for autonomous recommendation research agents.**
+It gives your agent an editable recommendation baseline, public data, and a task
+workspace. The agent proposes improvements, changes code, runs experiments, and
+selects a final candidate using public validation. AutoRSE records the research
+process and evaluates the final predictions through a separate hidden-test service.
 
-## 1. Prepare the runtime
+Use a supplied harness with your own supported model, customize the provided
+research-agent example, or connect your own Harbor-compatible agent.
+Research runs on your Linux/GPU machine; Hugging Face hosts prediction scoring
+and the leaderboard.
+
+| | What the framework provides |
+|---|---|
+| 🧪 **Research tasks** | Six editable recommendation baselines, task instructions, and public train/validation/test inputs. |
+| 🔌 **Agent integration** | Claude Code, Codex, Terminus-2, and a Python import path for your own agent. |
+| ⏱️ **Bounded trials** | A default 12-hour research window, up to 300 seconds of finalization, and one visible GPU. |
+| 🧾 **Reproducible evidence** | Git experiment branches, run records, selected source, prediction hashes, and agent trajectories. |
+| 🏆 **Hosted evaluation** | Six-task hidden-test metrics, signed receipts, and a reviewed community leaderboard. |
+
+<a name="how-it-works"></a>
+
+## 🧭 How it works
+
+<img src="docs/assets/framework.svg" width="100%" alt="A task workspace feeds an agent's propose–edit–run–analyze loop. Public validation guides selection; source and predictions are preserved before separate hosted hidden-test scoring."/>
+
+1. **Create a task workspace.** Harbor starts the task container with baseline code,
+   public inputs, and instructions. Your agent reads and edits files and runs tools
+   in that workspace.
+2. **Run the research loop.** The agent designs changes, commits each experiment on
+   its own Git branch, trains, and interprets **public-validation** results. The
+   supplied persistent adapters keep the same native session working until the
+   research deadline, then enter finalization.
+3. **Preserve and evaluate the selection.** The agent restores its best branch and
+   matching prediction, exports its source/history artifact, and finishes. Participants
+   then upload the six-task prediction ZIP to the hosted evaluator and retain its
+   signed receipt with the run evidence.
+
+**Public validation drives research. Hidden-test scores must never guide candidate
+selection.** The local verifier checks prediction format; the hosted evaluator
+retains hidden labels and computes the official metrics. Custom harnesses must
+preserve the trial budget, complete logs, and finalization contract described in
+[Runtime instructions](benchmark/RUNTIME.md).
+
+<a name="tasks"></a>
+
+## 🧪 Recommendation tasks
+
+| Task | Data | Research setting | Main hosted metric ↑ |
+|---|---|---|---|
+| HSTU | Amazon Beauty | Sequential recommendation | NDCG@10 |
+| TIGER | Amazon Beauty | Generative recommendation | NDCG@10 |
+| IntSR | Amazon | Recommendation and search | Macro NDCG@10 |
+| OneTrans | KuaiSAR v2 | Click-through rate prediction | AUC |
+| RankMixer | Criteo 5M | Click-through rate prediction | AUC |
+| WuKong | MovieLens | Click-through rate prediction | AUC |
+
+See the [dataset card](docs/DATASET.md) for splits, identities, v2 changes, and
+upstream data terms. Each [task directory](benchmark/tasks) defines the model
+constraints, input layout, and required prediction schema.
+
+<a name="run-your-agent"></a>
+
+## 🚀 Run your agent
+
+### Prepare the runtime
 
 For GPU experiments, use **Linux**, an NVIDIA GPU, a CUDA-12.1-compatible driver,
 Docker, and NVIDIA Container Toolkit. Use **Python 3.12+** on the host; the optional
@@ -54,7 +112,10 @@ request one visible GPU, 8 CPUs, `memory_mb=65536`, and `storage_mb=102400` for 
 agent environment; the separate format verifier requests 2 CPUs and 4096 MiB.
 These are the public starter settings, not a claim of matching historical runs.
 
-## 2. Download the public data
+### Install the public data
+
+Use the reviewed v2 inputs. Dataset hosting is a separate release step; if the
+linked Dataset is unavailable, use the maintainer-provided v2 ZIP via `--archive` below.
 
 Install one task, for example HSTU:
 
@@ -82,173 +143,123 @@ All task inputs together need approximately 2.1 GB; training outputs need additi
 space. Use a new checkout if old v1 inputs conflict. See the
 [dataset card](docs/DATASET.md) for split counts, v2 changes, and upstream data terms.
 
-## 3. Run the experiment
+### A. Use your model with an existing harness
 
-### Evaluate an LLM agent
-
-Install the host orchestration dependency:
+Choose `--agent claude-code`, `--agent codex`, or `--agent terminus-2` and a model
+supported and configured by that harness. Install the host runner:
 
 ```bash
 python -m pip install -r requirements-harbor.txt
 ```
 
-Configure your own provider credentials in a private environment file **outside
-this repository**. The variable names and model identifier must match the chosen
-Harbor harness/provider. Replace `YOUR_MODEL_ID` and the environment-file path
-below with your actual configuration; the example does not include credentials.
-A baseline-only run, described below, does not need model API access.
-
-First inspect the launch command without starting an agent, using a GPU, or
-calling an API:
-
-```bash
-python tools/run_agent.py --task hstu --agent codex \
-  --model YOUR_MODEL_ID --gpu 0 --seed 2024 --dry-run
-```
-
-Then launch one HSTU research trial:
+Keep provider credentials in a private environment file **outside this repository**.
+Replace the model ID and file path below with your actual provider configuration.
+First inspect the command with `--dry-run`; remove that flag to launch the trial:
 
 ```bash
 python tools/run_agent.py \
   --task hstu \
-  --agent codex \
-  --model YOUR_MODEL_ID \
+  --agent terminus-2 \
+  --model PROVIDER/MODEL \
   --api-env-file "$HOME/.config/autorse/provider.env" \
   --gpu 0 --seed 2024 \
-  --jobs-dir ./runs --job-name hstu-codex-s2024
+  --jobs-dir ./runs --job-name hstu-my-model-s2024 \
+  --dry-run
 ```
 
-- `--task`: `hstu`, `tiger`, `intsr`, `wukong`, `rankmixer`, or `onetrans`.
-- `--agent`: `claude-code`, `codex`, or `terminus-2`. Configure a compatible model
-  and provider credential file for each harness.
-- The default research budget is **43,200 seconds (12 hours)**, followed by at most
-  **300 seconds** for finalization. Early completion resumes the same native session.
-- Each invocation runs one task and one attempt. Use a new `--job-name` for each
-  task, model, harness, and seed; run jobs sequentially when sharing one GPU.
-- Short infrastructure checks may use `--minimum-runtime-sec 60
-  --finalization-grace-sec 30`; label these as smoke runs, not 12-hour evaluations.
+A dry run starts no agent, GPU training, or model API calls. Each launch runs one
+task and one attempt; choose a new job name for each task/configuration/seed.
+The default is **43,200 research seconds + at most 300 finalization seconds**.
+Use only public training data for fitting and public validation for selection;
+do not use external answer sources, knowledge banks, historical experiment cards,
+or hidden-test feedback. Agent containers have public networking for API access;
+these rules are not enforced by complete network isolation.
 
-Use only public training inputs for fitting and public validation for selection.
-Do not use hidden-test feedback, external answer sources, knowledge banks, or
-historical experiment cards to select models or ideas. The supplied agent
-containers have public networking for API access; these data-access rules are
-not enforced by complete network isolation. Details, provider configuration
-references, and runtime constraints are in [Runtime instructions](benchmark/RUNTIME.md).
+### B. Plug in your own research agent
 
-### Keep the experiment code and run history
-
-Each task runtime creates a Git repository at `/workspace/baseline`, with branch
-`baseline` and the immutable starter tag `autorse-baseline`. Create one `exp/...`
-branch **before editing each logical experiment**, commit its code before running,
-and record its public-validation result afterward. For example, inside the HSTU
-task container:
+The starter [EvidenceAgent](benchmark/custom_agents/evidence_agent.py) is a small,
+editable example that customizes Terminus-2's research instructions while retaining
+the supplied persistent supervisor. Start there to add your own research policy:
 
 ```bash
-python3 baseline_git.py init
-python3 baseline_git.py new exp/001-hstu-change --from baseline
-# Make one coherent change to source/helpers/configuration inside baseline/.
-python3 baseline_git.py commit -m 'Describe the HSTU experiment'
-CUDA_VISIBLE_DEVICES=0 RESEARCH_SEED=2024 bash run_baseline.sh beauty
-python3 baseline_git.py record --validation 'PUBLIC VALIDATION RESULT' \
-  --notes 'Change, observed outcome, and selection rationale'
+python tools/run_agent.py \
+  --task hstu \
+  --agent-import-path custom_agents.evidence_agent:EvidenceAgent \
+  --model PROVIDER/MODEL \
+  --api-env-file "$HOME/.config/autorse/provider.env" \
+  --gpu 0 --seed 2024 \
+  --jobs-dir ./runs --job-name hstu-my-agent-s2024 \
+  --dry-run
 ```
 
-Use `--from exp/001-hstu-change` to extend a previous experiment, or `--from baseline`
-for an independent idea. Keep failed branches and record failed runs with the
-observed error and unavailable validation when applicable. The wrapper captures
-the evaluated code commit, branch, command, exit status, and prediction hash;
-`record` commits this metadata under `baseline/experiments/`. Select using public
-validation only. Keep editable helpers and configuration under `baseline/` so
-Git captures them; `baseline/experiments/` is reserved for generated run records.
-Leave the workspace wrapper and requirements unchanged. Save each successful
-candidate prediction outside Git before the next experiment overwrites it, then
-restore the chosen candidate when selecting its branch. See the
-[complete HSTU workflow](benchmark/RUNTIME.md) for branch selection, prediction
-restoration, and exporting its provenance. The nested `.git`
-is created at runtime and is not committed to the public source repository.
+Edit the example or replace the import path with your own `module:Class`, then
+remove `--dry-run` to run it. AutoRSE adds `benchmark/` to the host Python path;
+install external agent packages in the host environment or supply an absolute
+`PYTHONPATH`. A custom agent controls its own execution and must honor the research
+budget and finalization contract. The example inherits these controls; an arbitrary
+custom class is not automatically supervised by a built-in adapter.
 
-### Optional: run a baseline without an LLM agent
+The [custom agent guide](docs/CUSTOM_AGENTS.md) explains the tested Python interface,
+example customization, external packages, credentials, smoke checks, and required
+outputs. Preserve the custom **agent/harness source and configuration** alongside
+the baseline artifact: host-side agent code is not automatically copied from the
+host into `/workspace/artifact/`.
 
-To check the training/prediction pipeline or establish a baseline, run one of the
-following commands after installing its task data. Each command trains from scratch
-and writes a test prediction file; it does **not** obtain a hidden-test score.
+<details>
+<summary><b>Optional: run a baseline without an LLM agent</b></summary>
+
+After installing the selected task's data, for example:
 
 ```bash
-python tools/run_baseline.py --task hstu      --gpu 0 --seed 2024
-python tools/run_baseline.py --task tiger     --gpu 0 --seed 2024
-python tools/run_baseline.py --task intsr     --gpu 0 --seed 2024
-python tools/run_baseline.py --task wukong    --gpu 0 --seed 2024
-python tools/run_baseline.py --task rankmixer --gpu 0 --seed 2024
-python tools/run_baseline.py --task onetrans  --gpu 0 --seed 2024
+python tools/run_baseline.py --task hstu --gpu 0 --seed 2024
 ```
 
-Run these separately or sequentially on a shared GPU. For a host-managed CUDA
-installation, install the selected task's `environment/requirements.txt` and add
-`--local`. Each task's `environment/README.md` explains its validation rule.
-A constant/example submission is useful for format checks, but is not a trained
-baseline or a research result.
+Other task names are `tiger`, `intsr`, `wukong`, `rankmixer`, and `onetrans`.
+Each command trains from scratch and writes predictions. Add `--local` to use a
+host-managed CUDA environment after installing the task's dependencies. This path
+needs no model API access; it does not produce an official hidden-test score.
 
-## 4. Locate and validate the final predictions
+</details>
 
-For a **baseline run**, outputs remain under
-`benchmark/tasks/<task>_task/environment/` at the relative paths in this table.
-For an **agent run**, Harbor collects predictions under
-`runs/<job-name>/<trial>/artifacts/workspace/` at the same relative paths.
+### Keep the code, predictions, and trajectory
 
-| Task | Relative prediction path | Test rows | Required contents | Main hosted metric |
-|---|---|---:|---|---|
-| HSTU | `datasets/beauty/working/submission.npz` | 22,363 | `user_ids[N]`, integer `top_items[N,10]` | `ndcg_at_10` |
-| TIGER | `datasets/beauty/working/submission.npz` | 22,363 | `user_ids[N]`, integer `top_items[N,10]` | `ndcg_at_10` |
-| IntSR | `datasets/Amazon/working/submission.npz` | 133,391 | `sample_ids[N]`, `task_ids[N]`, `candidate_items[N,100]`, finite `scores[N,100]` | `macro_ndcg_at_10` |
-| WuKong | `datasets/movielenslatest/working/submission.csv.gz` | 200,686 | CSV header `sample_id,score` | `auc` |
-| RankMixer | `datasets/criteo5m/working/submission.npz` | 500,000 | int64 `sample_ids[N]`, probability `scores[N]` | `auc` |
-| OneTrans | `datasets/kuaisar_v2/working/submission.csv` | 1,460,572 | CSV header `sample_id,prediction` | `auc` |
+Agents create one `exp/...` branch per logical experiment under `/workspace/baseline`,
+commit source before running `run_baseline.sh`, and record every outcome with
+`baseline_git.py record`, including failures. At finalization they select by
+public validation, restore the matching saved prediction, and run
+`export_artifact.py`. The [complete Git workflow](benchmark/RUNTIME.md) includes
+commands for branching, result recording, and restoring an earlier best experiment.
 
-Keep test IDs and row order unchanged. HSTU/TIGER require ten distinct catalog
-items per user, ranked best first. IntSR uses `task_ids` 0 for recommendation and
-1 for search; preserve the **v2 candidate identities and order** in every row.
-CTR predictions must be finite probabilities in `[0,1]`.
-NPZ submissions must contain only the listed named arrays. CSV headers must match
-the listed names and order; WuKong's `.csv.gz` must actually be gzip-compressed.
+Harbor collects an agent trial's files under
+`runs/<job-name>/<trial>/artifacts/workspace/`:
 
-For example, check a baseline HSTU prediction:
+| Output | Contents |
+|---|---|
+| `artifact/` | Selected source/helpers/config, `baseline.git.bundle`, `GIT_PROVENANCE.json`, `README.md`, and `SHA256SUMS`. |
+| Task prediction path | The exact test prediction whose SHA256 matches the selected source/run receipt. |
+
+| Task | Prediction path relative to the workspace |
+|---|---|
+| HSTU / TIGER | `datasets/beauty/working/submission.npz` |
+| IntSR | `datasets/Amazon/working/submission.npz` |
+| OneTrans | `datasets/kuaisar_v2/working/submission.csv` |
+| RankMixer | `datasets/criteo5m/working/submission.npz` |
+| WuKong | `datasets/movielenslatest/working/submission.csv.gz` |
+
+Retain the trial's agent logs/trajectory as well. A successful format check alone
+does not establish a completed research run or complete artifact collection.
+Check the collected prediction before packaging, for example:
 
 ```bash
 python tools/validate_submission.py --task hstu \
-  --submission benchmark/tasks/hstu_task/environment/datasets/beauty/working/submission.npz
+  --submission /path/to/collected/datasets/beauty/working/submission.npz
 ```
 
-For an agent trial, find the collected prediction, then pass that exact path to
-the same validator. Do not assume the editable baseline directory contains the
-agent's final output:
+<a name="submit-results"></a>
 
-```bash
-find runs/hstu-codex-s2024 -type f -path '*/artifacts/workspace/datasets/*/working/submission.*'
-python tools/validate_submission.py --task hstu \
-  --submission /path/to/the/collected/submission.npz
-```
+## 🏆 Score and submit your agent
 
-Agents must switch to the branch selected by public validation and export from a
-clean, committed repository with a recorded successful run that matches its
-selected branch, code, required runtime files, and current prediction bytes. Restore
-the selected candidate's saved prediction before export, or rerun the selected
-code if no matching recorded prediction is available. `/workspace/artifact/`
-contains the selected code and necessary helpers/configuration, `README.md`, `GIT_PROVENANCE.json`,
-`baseline.git.bundle` with all experiment branches and their code/metadata history,
-and `SHA256SUMS`. Harbor collects this under the trial's
-`artifacts/workspace/artifact/` directory. See the
-[source export command](benchmark/RUNTIME.md) for `export_artifact.py` usage.
-Retain the whole artifact for reproduction and code audit. The scoring Space
-accepts **only the prediction file**; do not upload the Git bundle to the public
-Hugging Face Dataset or Space. Weights and data are excluded from the code history
-and export.
-
-**Local validation is not official evaluation.** `format_valid=true` or Harbor
-`format_valid=1` means only that the prediction format passed. It does not check
-all hidden identities, compute NDCG/AUC, or establish that the research completed
-successfully. Review trial logs and artifact collection before submitting.
-
-## 5. Score all six tasks
+### Score all six tasks
 
 Open the [official AutoRSE evaluator](https://huggingface.co/spaces/Ray0311/AutoRSE-Evaluator)
 and sign in with Hugging Face. Upload **one ZIP** with exactly these paths, without
@@ -271,7 +282,7 @@ attempts per account per UTC day; invalid attempts count. ZIP size is limited to
 512 MiB, with each member at most 160 MiB. The quota resets when the free Space
 restarts. An error produces no complete score and is not a model result of zero.
 
-## 6. Submit a reproducible leaderboard entry
+### Submit a reproducible leaderboard entry
 
 We welcome new agents, harnesses and recommendation research ideas. Run three
 independent trials on every task, collect three signed six-task receipts and
@@ -285,7 +296,7 @@ complete configurations by equal-weight mean task rank (lower is better), with
 historical paper results in a separate view. Demo scores cannot enter the ranking.
 A numeric score alone does not establish protocol compliance.
 
-## Reporting a comparable result
+### Report a comparable result
 
 Report each task's hosted score together with the exact model/backend identifier,
 harness and CLI versions, source commit, container image digest, public-data
@@ -302,7 +313,7 @@ sizes and history context changed, and test candidate order was randomized.
 **Historical paper scores are not v2 re-evaluations.** Details and source data
 terms are in the [dataset card](docs/DATASET.md).
 
-## Maintainers and validation scope
+## 🛠️ Maintainers and validation
 
 To deploy the Dataset/Space and configure the separate private evaluator, follow
 [Hosted evaluation](docs/HOSTED_EVALUATION.md). Never upload private scoring inputs
