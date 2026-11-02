@@ -202,7 +202,7 @@ accepts **only the six task prediction files in one ZIP**, with the exact member
 paths listed in the [root quickstart](../README.md). Keep `baseline.git.bundle`,
 source, and logs out of that scoring ZIP and AutoRSE's public input Dataset.
 Publish reproduction evidence separately in your own evidence dataset when
-following the [leaderboard submission protocol](../internal/leaderboard/SUBMIT.md).
+following the [leaderboard submission protocol](https://github.com/Ray-Tiann/AutoRSE_WEB/blob/main/leaderboard/SUBMIT.md).
 Source export does not compute or expose a hidden-test score.
 
 The updated installed-harness adapter is specific to Harbor 0.18.0: it preserves

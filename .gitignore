@@ -39,3 +39,6 @@ runs/
 **/.autorse-runs/
 **/artifact/
 *.bundle
+
+# Separate maintenance checkout used by the trusted review workflows.
+website-code/
