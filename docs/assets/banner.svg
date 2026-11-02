@@ -1,39 +1,22 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="300" viewBox="0 0 1440 300" role="img" aria-labelledby="title desc">
-  <title id="title">AutoRSE — A framework for evaluating recommendation research agents</title>
-  <desc id="desc">AutoRSE connects your agent to six recommendation tasks, reproducible experiments, and hosted evaluation.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="248" viewBox="0 0 1440 248" role="img" aria-labelledby="title desc">
+  <title id="title">AutoRSE</title>
+  <desc id="desc">An evaluation framework for autonomous recommendation research agents.</desc>
   <defs>
-    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#102542"/><stop offset="1" stop-color="#173f59"/></linearGradient>
-    <linearGradient id="accent" x2="1" y2="1"><stop stop-color="#5eead4"/><stop offset="1" stop-color="#60a5fa"/></linearGradient>
-    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#dbeafe" stroke-opacity=".045"/></pattern>
+    <radialGradient id="wash">
+      <stop stop-color="#e4f0f3" stop-opacity=".8"/>
+      <stop offset="1" stop-color="#f9fbfd" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="accent">
+      <stop stop-color="#4e8b94"/>
+      <stop offset="1" stop-color="#315d7d"/>
+    </linearGradient>
   </defs>
-  <rect width="1440" height="300" rx="20" fill="url(#bg)"/>
-  <rect width="1440" height="300" rx="20" fill="url(#grid)"/>
-  <g transform="translate(55 65)">
-    <rect width="84" height="84" rx="22" fill="#dbeafe" fill-opacity=".08" stroke="#93c5fd" stroke-opacity=".3"/>
-    <g fill="none" stroke="url(#accent)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">
-      <path d="m27 27-12 15 12 15m30-30 12 15-12 15M47 23 37 61"/>
-      <path d="M18 67h47l-8-8m8 8-8 8" stroke-width="3"/>
-    </g>
-  </g>
-  <g font-family="Inter,Segoe UI,Arial,sans-serif">
-    <text x="163" y="126" font-size="70" font-weight="750" letter-spacing="-2" fill="#fff">AutoRSE</text>
-    <text x="57" y="195" font-size="28" font-weight="500" fill="#e0f2fe">A framework for evaluating</text>
-    <text x="57" y="235" font-size="28" font-weight="500" fill="#e0f2fe">autonomous recommendation research agents.</text>
-    <g font-size="15" font-weight="700" letter-spacing="1.4" text-anchor="middle">
-      <rect x="912" y="53" width="216" height="38" rx="19" fill="#5eead4" fill-opacity=".12"/>
-      <text x="1020" y="78" fill="#99f6e4">BRING YOUR AGENT</text>
-      <rect x="1144" y="53" width="236" height="38" rx="19" fill="#93c5fd" fill-opacity=".12"/>
-      <text x="1262" y="78" fill="#bfdbfe">RUN REAL EXPERIMENTS</text>
-    </g>
-    <g transform="translate(931 127)">
-      <g stroke="#789ab6" stroke-width="2"><path d="M53 44h91m72 0h91" fill="none"/><path d="m133 38 11 6-11 6m163-12 11 6-11 6" fill="none"/></g>
-      <g fill="#204b65" stroke="#79bdd2" stroke-opacity=".5"><rect width="80" height="80" rx="20"/><rect x="154" width="80" height="80" rx="20"/><rect x="308" width="80" height="80" rx="20"/></g>
-      <g stroke="#99f6e4" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="21" y="26" width="38" height="29" rx="6"/><path d="M40 18v8m-10 29v7m20-7v7m-19-24h1m16 0h1m-16 9h14"/>
-        <path d="M177 27h34m-27 0v25c0 10 20 10 20 0V27m-20 17h20M189 18h14"/>
-        <path d="M328 57V42m20 15V32m20 25V22" stroke-width="6"/>
-      </g>
-      <g font-size="16" font-weight="600" text-anchor="middle" fill="#dbeafe"><text x="40" y="111">Agent</text><text x="194" y="111">Research</text><text x="348" y="111">Evaluation</text></g>
-    </g>
+  <rect width="1440" height="248" rx="16" fill="#f9fbfd"/>
+  <ellipse cx="140" cy="124" rx="400" ry="230" fill="url(#wash)"/>
+  <ellipse cx="1300" cy="124" rx="400" ry="230" fill="url(#wash)"/>
+  <rect x="690" y="38" width="60" height="3" rx="1.5" fill="url(#accent)"/>
+  <g font-family="Inter,Segoe UI,Arial,sans-serif" text-anchor="middle">
+    <text x="720" y="143" font-size="96" font-weight="700" letter-spacing="-3" fill="#182b3d">Auto<tspan fill="#315d7d">RSE</tspan></text>
+    <text x="720" y="196" font-size="27" font-weight="400" fill="#526779">Evaluating autonomous recommendation research agents</text>
   </g>
 </svg>

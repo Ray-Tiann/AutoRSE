@@ -2,8 +2,6 @@
 
 <img src="docs/assets/banner.svg" width="100%" alt="AutoRSE — A framework for evaluating autonomous recommendation research agents"/>
 
-<p><b>Bring your agent. Run recommendation research. Evaluate with reproducible evidence.</b></p>
-
 <p>
   <a href="https://huggingface.co/datasets/RayTian/AutoRSE"><img src="https://img.shields.io/badge/Dataset-Public_v2-FFD21E?style=for-the-badge&amp;logo=huggingface&amp;logoColor=black" alt="Public data v2"/></a>
   <a href="https://huggingface.co/spaces/Ray0311/AutoRSE-Evaluator"><img src="https://img.shields.io/badge/Evaluator-Six_Tasks-0F766E?style=for-the-badge&amp;logo=huggingface&amp;logoColor=white" alt="Official six-task evaluator"/></a>
