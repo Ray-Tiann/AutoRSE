@@ -3,9 +3,9 @@
 <img src="docs/assets/banner.svg" width="100%" alt="AutoRSE — A framework for evaluating autonomous recommendation research agents"/>
 
 <p>
-  <a href="https://huggingface.co/datasets/RayTian/AutoRSE"><img src="https://img.shields.io/badge/Dataset-Public_v2-FFD21E?style=for-the-badge&amp;logo=huggingface&amp;logoColor=black" alt="Public data v2"/></a>
-  <a href="https://huggingface.co/spaces/Ray0311/AutoRSE-Evaluator"><img src="https://img.shields.io/badge/Evaluator-Six_Tasks-0F766E?style=for-the-badge&amp;logo=huggingface&amp;logoColor=white" alt="Official six-task evaluator"/></a>
-  <a href="https://huggingface.co/spaces/Ray0311/AutoRSE-Leaderboard"><img src="https://img.shields.io/badge/Leaderboard-Community-2563EB?style=for-the-badge&amp;logo=huggingface&amp;logoColor=white" alt="Community leaderboard"/></a>
+  <a href="https://arxiv.org/abs/2610.37228"><img src="https://img.shields.io/badge/Paper-B31B1B?style=for-the-badge&amp;logo=arxiv&amp;logoColor=white" alt="Paper"/></a>
+  <a href="https://huggingface.co/datasets/RayTian/AutoRSE"><img src="https://img.shields.io/badge/Data-FFD21E?style=for-the-badge&amp;logo=huggingface&amp;logoColor=black" alt="Data"/></a>
+  <a href="https://huggingface.co/spaces/Ray0311/AutoRSE-Leaderboard"><img src="https://img.shields.io/badge/Leaderboard-2563EB?style=for-the-badge&amp;logo=huggingface&amp;logoColor=white" alt="Leaderboard"/></a>
 </p>
 
 </div>
@@ -130,7 +130,7 @@ Local validation checks **format only**. Keep the selected source `artifact/`, a
 
 ### 6. Get the official score
 
-1. Open **Evaluator** at the top of this page and sign in.
+1. Open [AutoRSE Evaluator](https://huggingface.co/spaces/Ray0311/AutoRSE-Evaluator) and sign in.
 2. Upload the ZIP printed by step 5 and click **Evaluate all six tasks**.
 3. Download the signed JSON receipt and keep it with your run evidence.
 
