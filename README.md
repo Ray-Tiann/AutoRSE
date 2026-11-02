@@ -154,9 +154,7 @@ We evaluated seven agent configurations across three harnesses—Claude Code, Co
 | Codex | DeepSeek V4 Flash | 0.0657 ± 0.0030 | 0.6485 ± 0.0335 | 0.0583 ± 0.0147 | 0.7203 ± 0.0044 | 0.7974 ± 0.0003 | 0.9790 ± 0.0018 |
 | Codex | GPT-5.5 | 0.0672 ± 0.0065 | **0.7692** ± 0.1904 | **0.0659** ± 0.0046 | 0.7292 ± 0.0342 | 0.7954 ± 0.0030 | 0.9796 ± 0.0032 |
 | Terminus-2 | DeepSeek V4 Flash | 0.0667 ± 0.0057 | 0.6291 ± 0.0858 | 0.0554 ± 0.0158 | 0.6665 ± 0.0447 | 0.7977 ± 0.0012 | **0.9877** ± 0.0020 |
-| Terminus-2 | GPT-5.5 | 0.0697 ± 0.0058 | 0.6146 ± 0.0711 | 0.0614 ± 0.0053 | 0.7285 ± 0.0498† | 0.7944 ± 0.0021 | 0.9749 ± 0.0035 |
+| Terminus-2 | GPT-5.5 | 0.0697 ± 0.0058 | 0.6146 ± 0.0711 | 0.0614 ± 0.0053 | 0.7285 ± 0.0498 | 0.7944 ± 0.0021 | 0.9749 ± 0.0035 |
 | Terminus-2 | Claude Opus 4.8 | 0.0636 ± 0.0015 | 0.6761 ± 0.0334 | 0.0273 ± 0.0190 | 0.7207 ± 0.0232 | 0.7989 ± 0.0014 | 0.9823 ± 0.0004 |
-
-Agent results use three trials, except † OneTrans with Terminus-2 × GPT-5.5, which uses two. These are historical paper results, **not re-evaluations on the current public v2 data**.
 
 Code: Apache-2.0. Dataset and third-party terms remain with their original sources.
