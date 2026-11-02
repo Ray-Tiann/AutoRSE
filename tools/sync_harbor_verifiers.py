@@ -12,7 +12,7 @@ def sync():
         target = ROOT / f'benchmark/tasks/{task}_task/tests/autorse'
         target.mkdir(parents=True, exist_ok=True)
         for name in ('__init__.py', 'tasks.py', 'submissions.py'):
-            shutil.copyfile(ROOT / 'autorse' / name, target / name)
+            shutil.copyfile(ROOT / 'benchmark' / 'autorse' / name, target / name)
 
 
 if __name__ == '__main__':

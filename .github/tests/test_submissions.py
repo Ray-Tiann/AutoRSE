@@ -1,10 +1,12 @@
 import gzip
+import sys
 from pathlib import Path
 import tempfile
 import unittest
 import zipfile
 from unittest.mock import patch
 import numpy as np
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "benchmark"))
 from autorse.submissions import validate
 
 
