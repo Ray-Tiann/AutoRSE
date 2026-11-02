@@ -14,9 +14,13 @@ AutoRSE evaluates how LLM agents improve six recommendation baselines through co
 
 ## 🧭 Workflow
 
-1. **Research:** your agent edits the supplied baseline, runs experiments, and compares public-validation results.
-2. **Select:** preserve the best branch and its matching predictions; export the selected source and Git history.
-3. **Score:** upload the six-task prediction ZIP to the hosted evaluator and receive hidden-test metrics and a signed receipt.
+1. **Task setup.** Each run starts with a baseline implementation, task instructions, and public training, validation, and unlabeled test inputs. The agent works in a container with file-editing tools, shell access, dependency installation, and one visible GPU.
+
+2. **Research loop (12 hours).** The agent explores the code and data, proposes improvements, implements changes, trains, and analyzes validation results to plan the next experiment. Each logical experiment uses a Git branch; both successful and failed outcomes are recorded.
+
+3. **Final selection and export.** The agent selects its best candidate using public validation and restores the matching test predictions. It exports the selected code, helpers, configuration, Git history, and prediction hashes to `/workspace/artifact/`; the agent trajectory is retained separately.
+
+4. **Hosted evaluation.** After completing all six tasks, package their predictions into one ZIP and upload it to the Hugging Face evaluator. The service returns task metrics such as NDCG@10 or AUC and a signed receipt. Hidden labels stay private, and hidden-test feedback must not guide research or selection.
 
 ![AutoRSE workflow](docs/assets/workflow.png)
 
