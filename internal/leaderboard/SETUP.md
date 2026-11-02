@@ -7,12 +7,12 @@ This pipeline accepts one public submission JSON per PR, verifies signed evaluat
 Install these files in the root of `Ray-Tiann/AutoRSE` through a separate maintenance change:
 
 - `.github/workflows/validate-leaderboard.yml` and `publish-leaderboard.yml`.
-- `leaderboard/autorse_leaderboard/`, `requirements.txt`, public `trusted-keys.json`, tests and these guides.
-- `leaderboard/submissions/` containing only its README or `.gitkeep` until a real result is approved. Keep the incomplete template outside this directory.
+- `internal/leaderboard/autorse_leaderboard/`, `requirements.txt`, public `trusted-keys.json`, tests and these guides.
+- `internal/leaderboard/submissions/` containing only its README or `.gitkeep` until a real result is approved. Keep the incomplete template outside this directory.
 
 Review the validator, publisher, dependency pins, workflows and evaluator public keys before merging. The trusted key file contains **public verification keys only**. Keep each evaluator's private signing key in the scoring service's secret configuration; do not put private keys, labels or account credentials in GitHub or the Space. A receipt from an unknown evaluator key must fail validation.
 
-Use an independent maintenance test workflow for source changes. The submission publisher listens only to `leaderboard/submissions/**` on `main` and to an explicit manual run, so a code-only bootstrap commit does not publish results.
+Use an independent maintenance test workflow for source changes. The submission publisher listens only to `internal/leaderboard/submissions/**` on `main` and to an explicit manual run, so a code-only bootstrap commit does not publish results.
 
 ## Configure the Space's trusted publisher
 
@@ -36,7 +36,7 @@ Protect `main` against direct participant pushes and require PR review. Enable d
 
 The submission validation workflow is path-filtered. **Do not make its status globally required on every PR**: GitHub can leave a required path-skipped check pending on unrelated maintenance changes. Require successful submission validation as part of submission review policy, and use an always-running maintenance check for globally required source CI. The post-merge publisher independently enforces signatures, evidence and GitHub approval even if an administrator bypasses a branch rule.
 
-Eligible submission PRs add exactly one `leaderboard/submissions/<id>.json`, with a matching ID and a maximum size of 2 MiB. Mixed code/submission PRs, modifications, renames, nested paths and invalid slugs fail. Code-only PRs do not trigger this submission workflow and do not receive a submission eligibility claim.
+Eligible submission PRs add exactly one `internal/leaderboard/submissions/<id>.json`, with a matching ID and a maximum size of 2 MiB. Mixed code/submission PRs, modifications, renames, nested paths and invalid slugs fail. Code-only PRs do not trigger this submission workflow and do not receive a submission eligibility claim.
 
 The validator uses `pull_request_target` only to run the explicitly checked-out **base commit**. It has `contents: read` and `pull-requests: read`, does not expose repository secrets or an OIDC token, disables persisted checkout credentials and never checks out or executes PR code. It fetches only the JSON blob through GitHub REST and treats all linked artifacts as bytes. Keep these properties intact: GitHub warns that executing untrusted PR code with `pull_request_target` can expose credentials. See [the event documentation](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#pull_request_target) and [secure use reference](https://docs.github.com/en/actions/reference/security/secure-use#mitigating-the-risks-of-untrusted-code-checkout).
 
@@ -61,8 +61,8 @@ From the repository root, run the local test suite with Python 3.12:
 ```bash
 python -m venv .venv-leaderboard
 source .venv-leaderboard/bin/activate
-python -m pip install -r leaderboard/requirements.txt
-PYTHONPATH=leaderboard python -m unittest discover -s leaderboard/tests -v
+python -m pip install -r internal/leaderboard/requirements.txt
+PYTHONPATH=internal/leaderboard python -m unittest discover -s internal/leaderboard/tests -v
 ```
 
 Review tests use synthetic fixtures and temporary local Git history. They exercise JSON-only PR extraction, approval/reviewer state, current-head and main-tip checks, file hashes and fail-closed behavior; these fixtures are not publishable submissions.
@@ -70,7 +70,7 @@ Review tests use synthetic fixtures and temporary local Git history. They exerci
 After merging the trusted workflows and configuring the HF Trusted Publisher, open **Actions → Publish reviewed leaderboard → Run workflow** and select `main`. This is a real end-to-end OIDC permission check even when there are no approved results. The workflow collects the review ledger, then runs `check-publisher` before the score publication step:
 
 ```bash
-PYTHONPATH=leaderboard python -m autorse_leaderboard.cli check-publisher \
+PYTHONPATH=internal/leaderboard python -m autorse_leaderboard.cli check-publisher \
   --repo-id Ray0311/AutoRSE-Leaderboard \
   --sha "$GITHUB_SHA"
 ```
@@ -80,16 +80,16 @@ Run this through GitHub Actions so its short-lived OIDC identity is available. T
 Once a genuine benchmark submission is merged and approved, use a clean checkout of current `main` to inspect the generated snapshot without uploading. Use an already authenticated read-only GitHub session for `GITHUB_TOKEN`; do not paste a token into command history or source files. Set `GITHUB_REPOSITORY=Ray-Tiann/AutoRSE` and `GITHUB_SHA` to the full checked-out main commit, then run:
 
 ```bash
-PYTHONPATH=leaderboard python -m autorse_leaderboard.github_review collect \
+PYTHONPATH=internal/leaderboard python -m autorse_leaderboard.github_review collect \
   --repository "$GITHUB_REPOSITORY" \
   --sha "$GITHUB_SHA" \
-  --submissions-dir leaderboard/submissions \
+  --submissions-dir internal/leaderboard/submissions \
   --approved-dir /tmp/autorse-approved-submissions \
   --output /tmp/autorse-approval-ledger.json
 
-PYTHONPATH=leaderboard python -m autorse_leaderboard.cli publish \
+PYTHONPATH=internal/leaderboard python -m autorse_leaderboard.cli publish \
   --submissions-dir /tmp/autorse-approved-submissions \
-  --keys leaderboard/trusted-keys.json \
+  --keys internal/leaderboard/trusted-keys.json \
   --approval-ledger /tmp/autorse-approval-ledger.json \
   --output-dir /tmp/autorse-leaderboard-preview \
   --repo-id Ray0311/AutoRSE-Leaderboard \

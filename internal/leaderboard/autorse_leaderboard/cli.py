@@ -56,7 +56,7 @@ def check_approval(path, submission, ledger):
     if os.environ.get("GITHUB_SHA") and os.environ["GITHUB_SHA"] != main_sha:
         raise ValueError("stale_approval_ledger")
     matches = [entry for entry in ledger.get("approvals", [])
-               if entry.get("submission_path") == f"leaderboard/submissions/{submission['id']}.json"]
+               if entry.get("submission_path") == f"internal/leaderboard/submissions/{submission['id']}.json"]
     if len(matches) != 1:
         raise ValueError("submission_requires_maintainer_approval")
     entry = matches[0]
@@ -124,7 +124,7 @@ def publish(args):
         if not report.get("valid") or not report.get("publishable") or submission.get("kind") != "benchmark":
             raise ValueError("unverified_submission_refused")
         summary = report["summary"]
-        summary["source_url"] = f"https://github.com/{ledger['repository']}/blob/{ledger['main_sha']}/leaderboard/submissions/{submission['id']}.json"
+        summary["source_url"] = f"https://github.com/{ledger['repository']}/blob/{ledger['main_sha']}/internal/leaderboard/submissions/{submission['id']}.json"
         summaries.append(summary)
         approved.append((path, entry))
     data = build_leaderboard(summaries)

@@ -6,13 +6,13 @@ The official evaluator is [Ray0311/AutoRSE-Evaluator](https://huggingface.co/spa
 It uses free ZeroGPU for the fixed test metrics and accepts one complete six-task
 prediction ZIP per evaluation. Download its signed receipt; collect three
 independent complete trial sets for a formal submission. Demo receipts are
-excluded from the community ranking. See the [submission guide](../leaderboard/SUBMIT.md)
+excluded from the community ranking. See the [submission guide](../internal/leaderboard/SUBMIT.md)
 for the ZIP/run evidence, review and automatic publication process.
 
 The current deployed application source is public in the
 [evaluator Space](https://huggingface.co/spaces/Ray0311/AutoRSE-Evaluator/tree/main).
 The private evaluator remains private. The receipt verification public keys are
-in [trusted-keys.json](../leaderboard/trusted-keys.json); no signing private key
+in [trusted-keys.json](../internal/leaderboard/trusted-keys.json); no signing private key
 belongs in GitHub or a participant submission.
 
 The current hosted service is separate from the self-hosted CPU reference below.

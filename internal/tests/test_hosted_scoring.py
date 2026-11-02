@@ -8,7 +8,7 @@ import tempfile
 import unittest
 from unittest.mock import patch
 import numpy as np
-from space.service import score_submission, SubmissionRejected, EvaluatorUnavailable
+from internal.space.service import score_submission, SubmissionRejected, EvaluatorUnavailable
 
 
 class HostedScoringTests(unittest.TestCase):
@@ -20,7 +20,7 @@ class HostedScoringTests(unittest.TestCase):
 
     def call(self, task, path):
         # Fixtures intentionally have fewer rows than the real benchmark.
-        with patch("space.service.validate", return_value={"format_valid": True}):
+        with patch("internal.space.service.validate", return_value={"format_valid": True}):
             return score_submission(task, path, private_root=self.private)
 
     def test_hstu_and_tiger_known_ranks(self):

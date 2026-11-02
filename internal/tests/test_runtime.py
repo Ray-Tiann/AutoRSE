@@ -15,7 +15,7 @@ from types import ModuleType
 import unittest
 from unittest.mock import patch
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 TASKS = ('hstu', 'tiger', 'intsr', 'wukong', 'rankmixer', 'onetrans')
 os.environ.setdefault('LITELLM_LOCAL_MODEL_COST_MAP', 'True')
 

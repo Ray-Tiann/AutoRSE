@@ -17,7 +17,7 @@ from urllib.request import HTTPRedirectHandler, Request, build_opener
 
 MAX_SUBMISSION_BYTES = 2 * 1024**2
 MAX_API_BYTES = 8 * 1024**2
-PATH_RE = re.compile(r"leaderboard/submissions/(?=[a-z0-9-]{1,80}\.json\Z)[a-z0-9]+(?:-[a-z0-9]+)*\.json\Z")
+PATH_RE = re.compile(r"internal/leaderboard/submissions/(?=[a-z0-9-]{1,80}\.json\Z)[a-z0-9]+(?:-[a-z0-9]+)*\.json\Z")
 REPO_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9-]{0,38}/[A-Za-z0-9_.-]{1,100}\Z")
 SHA_RE = re.compile(r"[0-9a-f]{40}\Z")
 PUBLISH_PERMISSIONS = {"write", "maintain", "admin"}
@@ -163,7 +163,7 @@ def fetch_pr(api, repository, number, head_sha, output_dir, *, allow_maintenance
     pr = _pull(api, repository, number)
     require(pr.get("head", {}).get("sha") == head_sha, "pr_head_changed")
     files = _files(api, repository, pr)
-    if not any(str(item.get("filename", "")).startswith("leaderboard/submissions/") for item in files):
+    if not any(str(item.get("filename", "")).startswith("internal/leaderboard/submissions/") for item in files):
         require(allow_maintenance, "not_a_submission_pr")
         return {"is_submission": False, "reason": "maintenance_pr", "head_sha": head_sha}
     path, blob_sha = _only_added_submission(files)
@@ -289,7 +289,7 @@ def collect(api, repository, main_sha, submissions_dir, approved_dir):
     repository_root = Path(_git("rev-parse", "--show-toplevel", cwd=Path.cwd())).resolve()
     require(_git("rev-parse", "HEAD", cwd=repository_root) == main_sha, "checkout_not_main_snapshot")
     source = Path(submissions_dir).resolve()
-    require(source == repository_root / "leaderboard/submissions" and not Path(submissions_dir).is_symlink(),
+    require(source == repository_root / "internal/leaderboard/submissions" and not Path(submissions_dir).is_symlink(),
             "submissions_directory_mismatch")
     require(source.is_dir(), "submissions_directory_missing")
     require(not any(path.is_symlink() for path in source.rglob("*")), "submission_symlink_refused")

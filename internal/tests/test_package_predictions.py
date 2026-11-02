@@ -13,7 +13,7 @@ from unittest import mock
 import zipfile
 
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 SPEC = importlib.util.spec_from_file_location('autorse_package_predictions_test_target',
                                             ROOT / 'tools/package_predictions.py')
 packager = importlib.util.module_from_spec(SPEC)

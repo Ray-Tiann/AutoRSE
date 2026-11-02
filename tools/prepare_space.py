@@ -10,10 +10,10 @@ def prepare(output):
     if output.exists():
         raise ValueError("Output exists; choose a new directory")
     output.mkdir(parents=True)
-    for name in ("autorse", "space"):
+    for name in ("autorse", "internal/space"):
         shutil.copytree(ROOT / name, output / name, ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
-    shutil.copyfile(ROOT / "space/Dockerfile", output / "Dockerfile")
-    shutil.copyfile(ROOT / "space/README.md", output / "README.md")
+    shutil.copyfile(ROOT / "internal/space/Dockerfile", output / "Dockerfile")
+    shutil.copyfile(ROOT / "internal/space/README.md", output / "README.md")
     shutil.copytree(ROOT / "docs", output / "docs")
     for name in ("LICENSE", "THIRD_PARTY_NOTICES.md"):
         if (ROOT / name).exists():

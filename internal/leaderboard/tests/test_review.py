@@ -13,7 +13,7 @@ from autorse_leaderboard import github_review as review
 
 REPO = "example/benchmark"
 HEAD = "a" * 40
-PATH = "leaderboard/submissions/example-agent.json"
+PATH = "internal/leaderboard/submissions/example-agent.json"
 
 
 def blob_sha(data):
@@ -74,7 +74,7 @@ def repository(data=None):
         git("config", "user.name", "Synthetic Test")
         git("config", "user.email", "synthetic@example.test")
         (root / "README.md").write_text("synthetic")
-        source = root / "leaderboard/submissions"
+        source = root / "internal/leaderboard/submissions"
         source.mkdir(parents=True)
         (source / ".gitkeep").write_text("")
         git("add", ".")
@@ -136,7 +136,7 @@ class ReviewTests(unittest.TestCase):
                 review.fetch_pr(api, REPO, 7, HEAD, Path(temp) / "input")
         for name in ("example_agent", "example--agent", "example-agent-", "a" * 81, "../example-agent"):
             api = FakeAPI(self.data)
-            api.files[0]["filename"] = "leaderboard/submissions/" + name + ".json"
+            api.files[0]["filename"] = "internal/leaderboard/submissions/" + name + ".json"
             with tempfile.TemporaryDirectory() as temp, self.assertRaises(review.ReviewError):
                 review.fetch_pr(api, REPO, 7, HEAD, Path(temp) / "input")
 

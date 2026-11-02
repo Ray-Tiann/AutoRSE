@@ -140,6 +140,6 @@ Only predictions go in this ZIP. Source code, Git bundles, and logs stay in the 
 
 - Run **three independent trials per task** with three distinct seeds: **18 research runs**.
 - For the next trial, change `AUTORSE_SEED` and repeat steps 4–6. Keep the same versioned agent/model configuration.
-- Publish each run's evidence and follow the submission commands in `leaderboard/SUBMIT.md`.
+- Publish each run's evidence and follow the submission commands in `internal/leaderboard/SUBMIT.md`.
 
 Code: Apache-2.0. Dataset and third-party terms remain with their original sources.

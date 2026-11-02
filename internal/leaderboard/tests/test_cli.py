@@ -29,7 +29,7 @@ class WorkflowTests(unittest.TestCase):
         self.keys = self.root / "keys.json"
         cli.write_json(self.keys, self.fixture.keys)
         self.ledger = {"schema_version": 1, "repository": "Ray-Tiann/AutoRSE", "main_sha": "f" * 40,
-                       "approvals": [{"submission_path": "leaderboard/submissions/synthetic-agent.json",
+                       "approvals": [{"submission_path": "internal/leaderboard/submissions/synthetic-agent.json",
                                       "submission_sha256": hashlib.sha256(self.path.read_bytes()).hexdigest(),
                                       "pr_number": 10, "author": "synthetic-author", "head_sha": "e" * 40,
                                       "approved_reviews": [{"reviewer": "synthetic-maintainer", "permission": "write",

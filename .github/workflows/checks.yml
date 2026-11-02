@@ -10,7 +10,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: python -m pip install -r requirements.txt -r requirements-harbor.txt -r space/requirements.txt
-      - run: python -m unittest discover -s tests -v
+      - run: python -m pip install -r requirements.txt -r requirements-harbor.txt -r internal/space/requirements.txt
+      - run: python -m unittest discover -s internal/tests -v
       - run: python tools/run_baseline.py --task hstu --dry-run
       - run: python tools/run_agent.py --task hstu --agent codex --model example/model --dry-run

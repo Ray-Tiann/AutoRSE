@@ -195,7 +195,7 @@ wukong/submission.csv.gz
 ```
 
 Upload predictions only to the evaluator and download its signed, complete
-six-task receipt. The repository's `space/` directory and older
+six-task receipt. The repository's `internal/space/` directory and older
 `RayTian/AutoRSE` Space refer to the legacy CPU scoring template; use the official
 evaluator above for current signed leaderboard receipts.
 
@@ -211,5 +211,5 @@ every run to your public evidence dataset, pinned by immutable revision and file
 hashes. Your evidence dataset is separate from AutoRSE's public input Dataset and
 the evaluator. Keep the full source bundle for reproduction; it is separate from
 the prediction ZIP sent for scoring. Follow the
-[leaderboard submission guide](../../leaderboard/SUBMIT.md) to prepare and validate
+[leaderboard submission guide](../../internal/leaderboard/SUBMIT.md) to prepare and validate
 the evidence, then submit one result JSON through the review process.

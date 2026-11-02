@@ -13,7 +13,7 @@ class SpaceBoundaryTests(unittest.TestCase):
         try:
             import gradio.oauth
         except ImportError:
-            raise unittest.SkipTest("Install space/requirements.txt for app boundary tests")
+            raise unittest.SkipTest("Install internal/space/requirements.txt for app boundary tests")
         sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "space"))
         with patch("gradio.oauth._get_mocked_oauth_info", return_value={"userinfo": {"preferred_username": "synthetic-user", "sub": "test"}}):
             cls.app = importlib.import_module("app")
@@ -42,7 +42,7 @@ class SpaceBoundaryTests(unittest.TestCase):
                     self.assertEqual(client.get("/gradio_api/file=" + str(label)).status_code, 403)
 
     def test_daily_limit_is_atomic_and_task_scoped(self):
-        from space.service import SubmissionRejected
+        from internal.space.service import SubmissionRejected
         # app imports service with a script-relative module name.
         import service
         with tempfile.TemporaryDirectory() as temp, patch.object(self.app, "STATE_ROOT", Path(temp)), patch.object(self.app, "DAILY_LIMIT", 2):

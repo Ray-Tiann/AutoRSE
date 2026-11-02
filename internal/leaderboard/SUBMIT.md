@@ -54,7 +54,7 @@ The provenance record must include `evaluated_code_commit` and `prediction.sha25
 Use hashes of the actual uploaded bytes. After uploading evidence, this helper creates a hash/size reference for one file (it does not upload the file):
 
 ```bash
-PYTHONPATH=leaderboard python -m autorse_leaderboard.cli artifact-ref \
+PYTHONPATH=internal/leaderboard python -m autorse_leaderboard.cli artifact-ref \
   --file /path/to/local/report.md \
   --repo-id YOUR-HF-USERNAME/YOUR-EVIDENCE-DATASET \
   --revision FULL_40_CHARACTER_DATASET_COMMIT \
@@ -70,8 +70,8 @@ From the root of your AutoRSE checkout, use Python 3.12:
 ```bash
 python -m venv .venv-leaderboard
 source .venv-leaderboard/bin/activate
-python -m pip install -r leaderboard/requirements.txt
-PYTHONPATH=leaderboard python -m autorse_leaderboard.cli template \
+python -m pip install -r internal/leaderboard/requirements.txt
+PYTHONPATH=internal/leaderboard python -m autorse_leaderboard.cli template \
   --output /tmp/autorse-submission-metadata.json
 ```
 
@@ -80,14 +80,14 @@ Edit the generated metadata. Set `id` to a unique lowercase slug of at most 80 c
 Combine the metadata and the three receipts, then validate the public evidence:
 
 ```bash
-PYTHONPATH=leaderboard python -m autorse_leaderboard.cli prepare \
+PYTHONPATH=internal/leaderboard python -m autorse_leaderboard.cli prepare \
   --metadata /tmp/autorse-submission-metadata.json \
   --receipts /path/to/trial-1-receipt.json /path/to/trial-2-receipt.json /path/to/trial-3-receipt.json \
   --output /tmp/my-agent-model-v1.json
 
-PYTHONPATH=leaderboard python -m autorse_leaderboard.cli validate \
+PYTHONPATH=internal/leaderboard python -m autorse_leaderboard.cli validate \
   --submission /tmp/my-agent-model-v1.json \
-  --keys leaderboard/trusted-keys.json \
+  --keys internal/leaderboard/trusted-keys.json \
   --resolve-artifacts \
   --report /tmp/my-agent-model-v1-validation.json
 ```
@@ -99,7 +99,7 @@ A successful command exits with status 0. Inspect any failed checks in the repor
 Fork [Ray-Tiann/AutoRSE](https://github.com/Ray-Tiann/AutoRSE) and create a branch. Add exactly one new file:
 
 ```text
-leaderboard/submissions/my-agent-model-v1.json
+internal/leaderboard/submissions/my-agent-model-v1.json
 ```
 
 The filename stem must exactly match `id`. The file must be at most 2 MiB. **The submission PR may only add this one JSON file**: no code, documentation, key changes, edits to existing submissions or renamed files. Propose maintenance changes separately. Keep source archives and execution artifacts in the public dataset rather than adding them to this PR.

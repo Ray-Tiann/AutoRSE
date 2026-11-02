@@ -8,7 +8,7 @@ from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
 
-from space import service
+from internal.space import service
 from autorse.release import PUBLIC_BUNDLE_SHA256
 
 
