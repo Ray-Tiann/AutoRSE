@@ -171,7 +171,7 @@ class InstallerTests(unittest.TestCase):
                 installer.download_bundle(repo, "main", self.directory / "unused.zip")
 
     def test_default_dataset_and_explicit_archive(self):
-        self.assertEqual(installer.parse_args([]).repo_id, "RayTian/AutoRSE")
+        self.assertEqual(installer.parse_args([]).repo_id, "Ray0311/AutoRSE")
         args = installer.parse_args(["--archive", "local.zip"])
         self.assertEqual(args.archive, Path("local.zip"))
         self.assertIsNone(args.repo_id)

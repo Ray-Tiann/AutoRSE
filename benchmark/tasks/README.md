@@ -29,7 +29,7 @@ API credentials or Harbor installation.
 Install all six tasks:
 
 ```bash
-python tools/install_public_data.py --repo-id RayTian/AutoRSE
+python tools/install_public_data.py --repo-id Ray0311/AutoRSE
 ```
 
 Add `--task hstu` to install only HSTU, or use a maintainer-provided v2 archive:

@@ -25,7 +25,7 @@ import zipfile
 BUNDLE_NAME = "recagent-data-public-v2.zip"
 BUNDLE_SHA256 = "4185fa03339cd37df9591906ef1e2e309beec6b3676e724d2c60916b13679414"
 BUNDLE_BYTES = 941_569_295
-DEFAULT_REPO_ID = "RayTian/AutoRSE"
+DEFAULT_REPO_ID = "Ray0311/AutoRSE"
 MANIFEST_NAME = "recagent-data-manifest.json"
 TASKS = ("hstu_task", "tiger_task", "intsr_task", "wukong_task", "rankmixer_task", "onetrans_task")
 MAX_MANIFEST_BYTES = 1_048_576

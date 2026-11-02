@@ -17,8 +17,8 @@ belongs in GitHub or a participant submission.
 
 The current hosted service is separate from the self-hosted CPU reference below.
 The CPU template does not issue official signed community leaderboard receipts.
-Public input hosting is a separate release step: the installer examples below
-are not evidence that their example dataset repository has been populated.
+The public input repository is the
+[Ray0311/AutoRSE Dataset](https://huggingface.co/datasets/Ray0311/AutoRSE).
 
 ## Self-hosted CPU reference setup
 
@@ -31,17 +31,18 @@ checks formats; it does not compute a hidden-test score.
 
 | Repository | Visibility | Contents |
 |---|---|---|
-| `RayTian/AutoRSE` (Dataset) | Public | Reviewed public input ZIP, manifest, dataset card |
+| `Ray0311/AutoRSE` (Dataset) | Public | Reviewed public input ZIP, manifest, dataset card |
 | `RayTian/AutoRSE-private` (Dataset) | **Private** | Twelve opaque evaluator files and `private-manifest.json` |
 | `RayTian/AutoRSE` (Space, Docker) | Public or protected | Application source, no labels or tokens |
 
-Dataset and Space may have the same name; they are different repository types.
-These names are reference setup examples; they do not identify the live service above.
+Dataset and Space are different repository types. The public Dataset is the
+current download source; the private Dataset and CPU Space names are reference
+setup examples and do not identify the live service above.
 
-## 1. Upload public inputs
+## 1. Use the reviewed public inputs
 
-Upload the contents of the delivered `huggingface-dataset/` folder to the public
-Dataset. Keep the ZIP filename unchanged; the public installer pins its SHA256.
+Use the reviewed `huggingface-dataset/` release for the public Dataset.
+Keep the ZIP filename unchanged; the public installer pins its SHA256.
 Do not upload the old v1 bundle: its OneTrans event table and IntSR session/history
 tables exposed held-out outcomes. See the v2 dataset card for the redaction scope.
 The corrected public inputs are a new data revision, not a claim of reproducing

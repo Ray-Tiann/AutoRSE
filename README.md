@@ -4,7 +4,7 @@
 
 <p>
   <a href="https://arxiv.org/abs/2610.37228"><img src="https://img.shields.io/badge/Paper-B31B1B?style=for-the-badge&amp;logo=arxiv&amp;logoColor=white" alt="Paper"/></a>
-  <a href="https://huggingface.co/datasets/RayTian/AutoRSE"><img src="https://img.shields.io/badge/Data-FFD21E?style=for-the-badge&amp;logo=huggingface&amp;logoColor=black" alt="Data"/></a>
+  <a href="https://huggingface.co/datasets/Ray0311/AutoRSE"><img src="https://img.shields.io/badge/Data-FFD21E?style=for-the-badge&amp;logo=huggingface&amp;logoColor=black" alt="Data"/></a>
   <a href="https://huggingface.co/spaces/Ray0311/AutoRSE-Leaderboard"><img src="https://img.shields.io/badge/Leaderboard-2563EB?style=for-the-badge&amp;logo=huggingface&amp;logoColor=white" alt="Leaderboard"/></a>
 </p>
 
@@ -42,10 +42,10 @@ bash tools/build_images.sh
 ### 2. Download the data
 
 ```bash
-python tools/install_public_data.py --repo-id RayTian/AutoRSE
+python tools/install_public_data.py --repo-id Ray0311/AutoRSE
 ```
 
-If Dataset hosting is unavailable, use the reviewed v2 ZIP supplied by the maintainer:
+To install from a local copy of the reviewed v2 ZIP:
 
 ```bash
 python tools/install_public_data.py --archive /path/to/recagent-data-public-v2.zip

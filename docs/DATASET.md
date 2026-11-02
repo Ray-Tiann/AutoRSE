@@ -11,7 +11,7 @@ tags:
 
 # AutoRSE public benchmark data
 
-This repository distributes the agent-visible data for six recommendation research tasks: HSTU, TIGER, IntSR, WuKong, RankMixer, and OneTrans. It contains training data, public validation labels, public catalog/features/history inputs, and unlabeled test requests. Official scoring is intended for the separate [RayTian/AutoRSE evaluation Space](https://huggingface.co/spaces/RayTian/AutoRSE), once the maintainer deploys it. Hidden evaluator labels and reference submissions are not distributed here.
+This repository distributes the agent-visible data for six recommendation research tasks: HSTU, TIGER, IntSR, WuKong, RankMixer, and OneTrans. It contains training data, public validation labels, public catalog/features/history inputs, and unlabeled test requests. Official scoring is provided by the separate [AutoRSE Evaluator](https://huggingface.co/spaces/Ray0311/AutoRSE-Evaluator), which accepts the complete six-task prediction ZIP and returns a signed receipt. Hidden evaluator labels and reference submissions are not distributed here.
 
 Download `recagent-data-public-v2.zip`, retain `SHA256SUMS`, and use the release's `tools/install_public_data.py` from the benchmark code repository. This is a native benchmark data archive; `datasets.load_dataset()` is not the installation interface. The archive preserves paths below `benchmark/tasks/<task>/environment/datasets/`.
 
@@ -22,11 +22,11 @@ python3 tools/install_public_data.py \
 
 # Or download from the public dataset repository and install one task.
 python3 tools/install_public_data.py \
-  --repo-id RayTian/AutoRSE --revision main \
+  --repo-id Ray0311/AutoRSE --revision main \
   --task wukong --root /path/to/AutoRSE
 ```
 
-The installer requires Python 3.9 or newer and only its standard library. Its default download source is [RayTian/AutoRSE](https://huggingface.co/datasets/RayTian/AutoRSE); the data must be uploaded before downloads work. It pins the ZIP's size and SHA-256, validates its public-only paths and embedded per-file manifest, rejects symlinks and duplicate ZIP members, and publishes each verified file atomically. Identical existing files are retained; differing files cause an error and are never replaced. Repeat `--task` to select several tasks. A Hugging Face commit revision is recommended for reproducible downloads; the pinned ZIP checksum remains mandatory for every revision.
+The installer requires Python 3.9 or newer and only its standard library. Its default download source is [Ray0311/AutoRSE](https://huggingface.co/datasets/Ray0311/AutoRSE).  It pins the ZIP's size and SHA-256, validates its public-only paths and embedded per-file manifest, rejects symlinks and duplicate ZIP members, and publishes each verified file atomically. Identical existing files are retained; differing files cause an error and are never replaced. Repeat `--task` to select several tasks. A Hugging Face commit revision is recommended for reproducible downloads; the pinned ZIP checksum remains mandatory for every revision.
 
 ## Tasks and split identity
 
@@ -77,4 +77,4 @@ This is a processed compilation of upstream datasets. **No blanket license or ne
 
 KuaiSAR attribution and modification notice: credit the original KuaiSAR authors and dataset described by the [official project](https://kuaisar.github.io/) and [version 2 record](https://zenodo.org/records/8181109). The OneTrans tables are derived from that dataset; preprocessing builds chronological recommendation samples and event histories, and this v2 release additionally masks held-out outcome columns as described above. These derived KuaiSAR artifacts retain the upstream CC BY-NC-SA 4.0 conditions.
 
-The table combines local provenance evidence with the linked primary licensing sources; it is not a legal determination. This folder is prepared for the owner to review and upload, and does not establish publication permission. The maintainer should resolve the listed licensing facts before public publication. No training weights, upstream model source repositories, or separate upstream license grants are bundled in this data upload directory.
+The table combines local provenance evidence with the linked primary licensing sources; it is not a legal determination. Publication does not grant permissions beyond the upstream terms; the maintainer remains responsible for the listed licensing facts. The maintainer should resolve the listed licensing facts before public publication. No training weights, upstream model source repositories, or separate upstream license grants are bundled in this data upload directory.
