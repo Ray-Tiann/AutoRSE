@@ -18,7 +18,7 @@ AutoRSE evaluates how LLM agents improve six recommendation baselines through co
 2. **Select:** preserve the best branch and its matching predictions; export the selected source and Git history.
 3. **Score:** upload the six-task prediction ZIP to the hosted evaluator and receive hidden-test metrics and a signed receipt.
 
-![AutoRSE workflow](docs/assets/framework.svg)
+![AutoRSE workflow](docs/assets/workflow.png)
 
 ## 🚀 Quickstart
 

@@ -6,7 +6,7 @@ by public validation; a separate hosted evaluator scores the final predictions
 against hidden test labels. Git history, source artifacts, and trajectories retain
 the evidence needed to reproduce and review a run.
 
-![AutoRSE framework](../docs/assets/framework.svg)
+![AutoRSE framework](../docs/assets/workflow.png)
 
 Run **host commands from the repository root**, not from `benchmark/`.
 The Git experiment examples explicitly run inside the task container at
