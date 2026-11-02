@@ -13,13 +13,13 @@ Choose the integration that fits your work:
 | Your research policy with the supplied persistent Terminus-2 loop | Extend the shipped `EvidenceAgent` example and use `--agent-import-path` |
 | Your own planning, tools, memory, or execution loop | Implement a Harbor agent adapter and use `--agent-import-path` |
 
-The shipped [EvidenceAgent](../benchmark/custom_agents/evidence_agent.py) is a
+The shipped [EvidenceAgent](evidence_agent.py) is a
 minimal policy example. No trained result, benchmark score, or performance claim
 is supplied for it.
 
 ## Prepare once
 
-Follow the [runtime and public-data setup](../README.md) on a Linux machine with
+Follow the [runtime and public-data setup](../../README.md) on a Linux machine with
 one available NVIDIA GPU, Docker and NVIDIA Container Toolkit. Use a Python 3.12
 host environment and the pinned orchestration dependency:
 
@@ -54,7 +54,7 @@ planning and tool loop.
 ## Run a custom agent
 
 The repository includes an importable example at
-[`benchmark/custom_agents/evidence_agent.py`](../benchmark/custom_agents/evidence_agent.py).
+[`benchmark/custom_agents/evidence_agent.py`](evidence_agent.py).
 It subclasses `PersistentTerminus2`, changes its name/version and research policy,
 and delegates execution to the parent:
 
@@ -163,7 +163,7 @@ change, commit source/helpers/configuration under `baseline/` before running
 failures. Keep candidate prediction copies outside Git. At finalization, restore
 the best branch and its matching saved prediction, then use `export_artifact.py`
 to export the selected source, `baseline.git.bundle`, `GIT_PROVENANCE.json` and
-checksums. The [runtime guide](../benchmark/RUNTIME.md) gives the complete commands.
+checksums. The [runtime guide](../README.md) gives the complete commands.
 
 Harbor collects the prediction and `/workspace/artifact/` separately under
 `runs/<job-name>/<trial>/artifacts/workspace/`. Keep the agent logs, structured
@@ -211,5 +211,5 @@ every run to your public evidence dataset, pinned by immutable revision and file
 hashes. Your evidence dataset is separate from AutoRSE's public input Dataset and
 the evaluator. Keep the full source bundle for reproduction; it is separate from
 the prediction ZIP sent for scoring. Follow the
-[leaderboard submission guide](../leaderboard/SUBMIT.md) to prepare and validate
+[leaderboard submission guide](../../leaderboard/SUBMIT.md) to prepare and validate
 the evidence, then submit one result JSON through the review process.

@@ -1,4 +1,22 @@
-# Public evaluation runtime
+# AutoRSE benchmark framework
+
+AutoRSE gives a research agent an editable recommendation baseline, public data,
+and a task workspace. The agent proposes changes, runs experiments, and selects
+by public validation; a separate hosted evaluator scores the final predictions
+against hidden test labels. Git history, source artifacts, and trajectories retain
+the evidence needed to reproduce and review a run.
+
+![AutoRSE framework](../docs/assets/framework.svg)
+
+Run **host commands from the repository root**, not from `benchmark/`.
+The Git experiment examples explicitly run inside the task container at
+`/workspace`; those paths refer to that container.
+
+- [Root quickstart](../README.md): install, launch, and submit predictions.
+- [Baseline tasks](tasks/README.md): run the supplied recommendation models.
+- [Custom agents](custom_agents/README.md): configure a model or connect your harness.
+
+## Public evaluation runtime
 
 The repository supplies six editable baseline implementations, public training and
 validation inputs, and unlabeled prediction schemas. Hidden-test scores come from
@@ -47,7 +65,7 @@ with the built-in `--agent` selector.
 Use `--agent-import-path module.path:ClassName` instead of `--agent` to load your
 own Harbor-compatible agent. It receives the research/finalization durations and
 seed, and must implement its own supervision or inherit a supplied persistent
-adapter. The [custom agent guide](../docs/CUSTOM_AGENTS.md) includes an importable
+adapter. The [custom agent guide](custom_agents/README.md) includes an importable
 policy example and explains the host interface, logs, and required artifacts.
 
 The shared image installs current Codex and Claude Code CLI releases unless you
@@ -178,10 +196,14 @@ also identifies the selected branch, code commit, real run, current prediction
 hash, and required runtime file hashes.
 
 Harbor collects the complete artifact directory and prediction file separately.
-Retain the whole artifact for reproduction and code audit. Hosted Hugging Face
-scoring accepts **only the prediction file**; do not upload `baseline.git.bundle`
-to the public Dataset or Space. Source export does not compute or expose a
-hidden-test score.
+Retain the whole artifact for reproduction and code audit. The
+[official hosted evaluator](https://huggingface.co/spaces/Ray0311/AutoRSE-Evaluator)
+accepts **only the six task prediction files in one ZIP**, with the exact member
+paths listed in the [root quickstart](../README.md). Keep `baseline.git.bundle`,
+source, and logs out of that scoring ZIP and AutoRSE's public input Dataset.
+Publish reproduction evidence separately in your own evidence dataset when
+following the [leaderboard submission protocol](../leaderboard/SUBMIT.md).
+Source export does not compute or expose a hidden-test score.
 
 The updated installed-harness adapter is specific to Harbor 0.18.0: it preserves
 Codex's session directory between segments, delays credential/session cleanup
