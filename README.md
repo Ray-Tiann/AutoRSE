@@ -4,7 +4,7 @@
 
 <p>
   <a href="https://arxiv.org/abs/2610.37228"><img src="https://img.shields.io/badge/Paper-B31B1B?style=for-the-badge&amp;logo=arxiv&amp;logoColor=white" alt="Paper"/></a>
-  <a href="https://huggingface.co/datasets/Ray0311/AutoRSE"><img src="https://img.shields.io/badge/Data-FFD21E?style=for-the-badge&amp;logo=huggingface&amp;logoColor=black" alt="Data"/></a>
+  <a href="https://ray-tiann.github.io/AutoRSE_WEB/"><img src="https://img.shields.io/badge/Homepage-FFD21E?style=for-the-badge" alt="Homepage"/></a>
   <a href="https://huggingface.co/spaces/Ray0311/AutoRSE-Leaderboard"><img src="https://img.shields.io/badge/Leaderboard-2563EB?style=for-the-badge&amp;logo=huggingface&amp;logoColor=white" alt="Leaderboard"/></a>
 </p>
 
