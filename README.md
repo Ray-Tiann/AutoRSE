@@ -144,7 +144,7 @@ Only predictions go in this ZIP. Source code, Git bundles, and logs stay in the 
 
 ## 📊 Results
 
-Reported held-out test results from [Table 1 of the paper](https://arxiv.org/abs/2610.37228), under a 12-hour research budget per task. Agent rows show mean ± standard deviation; **bold** marks the highest mean in each task.
+We evaluated seven agent configurations across three harnesses—Claude Code, Codex, and Terminus-2—and three LLMs—DeepSeek V4 Flash, Claude Opus 4.8, and GPT-5.5—on all six recommendation tasks, with a 12-hour research budget per task. The results are shown below as mean ± standard deviation; **bold** marks the highest mean in each task.
 
 | Harness | Model | HSTU<br>NDCG@10 ↑ | IntSR<br>Macro NDCG@10 ↑ | TIGER<br>NDCG@10 ↑ | OneTrans<br>Click AUC ↑ | RankMixer<br>AUC ↑ | WuKong<br>AUC ↑ |
 | :--- | :--- | ---: | ---: | ---: | ---: | ---: | ---: |
