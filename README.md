@@ -10,7 +10,7 @@
 
 </div>
 
-AutoRSE evaluates how LLM agents improve six recommendation baselines through code changes and experiments.
+AutoRSE is built on [Harbor](https://harborframework.com/) to evaluate how LLM agents improve six recommendation baselines through code changes and experiments.
 
 ## 🧭 Workflow
 
