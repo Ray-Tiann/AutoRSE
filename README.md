@@ -10,7 +10,7 @@
 
 </div>
 
-AutoRSE is built on [Harbor](https://harborframework.com/) to evaluate how LLM agents improve six recommendation baselines through code changes and experiments.
+Built upon [Harbor](https://harborframework.com/), AutoRSE evaluates the capability of LLM agents to autonomously optimize six recommendation baselines through iterative code modifications and empirical experimentation.
 
 ## 🧭 Workflow
 
