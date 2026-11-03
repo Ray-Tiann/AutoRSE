@@ -42,10 +42,10 @@ For a host-managed CUDA environment, install that task's environment requirement
 and use `tools/run_baseline.py --task TASK --local`. The Python CLI supports
 `--dry-run` without Docker, PyTorch, data, or API credentials.
 
-Optional Harbor orchestration uses a separate Python 3.12 host environment:
+Run research agents through Harbor in the Python 3.12 host environment:
 
 ```bash
-python3 -m pip install -r requirements-harbor.txt
+python3 -m pip install -r requirements.txt
 python3 tools/run_agent.py --task wukong --agent codex --model PROVIDER/MODEL --gpu 0
 python3 tools/run_agent.py --task hstu --agent claude-code --model PROVIDER/MODEL --gpu 0
 python3 tools/run_agent.py --task intsr --agent terminus-2 --model PROVIDER/MODEL --gpu 0

@@ -24,7 +24,7 @@ one available NVIDIA GPU, Docker and NVIDIA Container Toolkit. Use a Python 3.12
 host environment and the pinned orchestration dependency:
 
 ```bash
-python -m pip install -r requirements-harbor.txt
+python -m pip install -r requirements.txt
 ```
 
 Run the commands below from the repository root. Replace `YOUR_MODEL_ID` with an

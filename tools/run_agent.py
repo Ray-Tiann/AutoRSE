@@ -90,7 +90,7 @@ def main():
     try:
         installed = version('harbor')
     except PackageNotFoundError:
-        parser.error('Install the optional Harbor dependency from requirements-harbor.txt')
+        parser.error('Install host dependencies with: python -m pip install -r requirements.txt')
     if installed != '0.18.0':
         parser.error(f'This integration targets Harbor 0.18.0; installed version is {installed}')
     if args.api_env_file and not args.api_env_file.expanduser().is_file():

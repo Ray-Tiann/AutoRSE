@@ -35,7 +35,7 @@ git clone https://github.com/Ray-Tiann/AutoRSE.git
 cd AutoRSE
 python3.12 -m venv .venv
 source .venv/bin/activate
-python -m pip install -r requirements.txt -r requirements-harbor.txt
+python -m pip install -r requirements.txt
 bash tools/build_images.sh
 ```
 

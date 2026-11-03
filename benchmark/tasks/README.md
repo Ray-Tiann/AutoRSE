@@ -21,8 +21,8 @@ python -m pip install -r requirements.txt
 bash tools/build_images.sh
 ```
 
-The shared image supplies the training dependencies. Baseline runs need no model
-API credentials or Harbor installation.
+The shared image supplies the training dependencies. Baseline commands do not
+invoke Harbor and need no model API credentials.
 
 ## 2. Install the public data
 

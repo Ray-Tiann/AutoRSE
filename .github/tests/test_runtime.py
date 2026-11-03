@@ -174,7 +174,7 @@ class RuntimeCliTests(unittest.TestCase):
                 self.assertEqual(digest, hashlib.sha256((artifact / name).read_bytes()).hexdigest())
 
 
-@unittest.skipUnless(importlib.util.find_spec('harbor'), 'Optional Harbor dependency is not installed')
+@unittest.skipUnless(importlib.util.find_spec('harbor'), 'Harbor dependency is not installed')
 class HarborCompatibilityTests(unittest.IsolatedAsyncioTestCase):
     @classmethod
     def setUpClass(cls):
