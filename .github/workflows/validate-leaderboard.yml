@@ -32,7 +32,7 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           repository: Ray-Tiann/AutoRSE_WEB
-          ref: 43a059a28021a9f378be23a6efd8e0cc000282be
+          ref: b01694f8649240ec466bcd20104251bcf6401f36
           path: website-code
           persist-credentials: false
 

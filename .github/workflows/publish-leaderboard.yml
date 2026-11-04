@@ -35,7 +35,7 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           repository: Ray-Tiann/AutoRSE_WEB
-          ref: 43a059a28021a9f378be23a6efd8e0cc000282be
+          ref: b01694f8649240ec466bcd20104251bcf6401f36
           path: website-code
           persist-credentials: false
 
@@ -68,6 +68,7 @@ jobs:
           PY
 
       - name: Verify the live trusted publisher without submitting scores
+        if: steps.review.outcome == 'success' && steps.review.outputs.approved_count != '0'
         env:
           GITHUB_TOKEN: ${{ github.token }}
           GH_TOKEN: ${{ github.token }}
@@ -79,6 +80,7 @@ jobs:
             --sha "$GITHUB_SHA"
 
       - name: Revalidate and publish the approved snapshot
+        id: publish
         if: steps.review.outcome == 'success' && steps.review.outputs.approved_count != '0'
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -93,6 +95,69 @@ jobs:
             --output-dir "$RUNNER_TEMP/leaderboard-output" \
             --repo-id Ray0311/AutoRSE-Leaderboard
 
+      - name: Initialize an actually empty community snapshot
+        id: bootstrap
+        if: steps.review.outcome == 'success' && steps.review.outputs.approved_count == '0'
+        env:
+          PYTHONPATH: website-code/leaderboard
+        run: |
+          python -m autorse_leaderboard.bootstrap_empty \
+            --source-checkout . \
+            --source-commit "$GITHUB_SHA" \
+            --output-dir "$RUNNER_TEMP/leaderboard-output"
+
+      - name: Package the reviewed server snapshot
+        id: package
+        if: steps.review.outcome == 'success' && ((steps.review.outputs.approved_count != '0' && steps.publish.outcome == 'success') || (steps.review.outputs.approved_count == '0' && steps.bootstrap.outcome == 'success'))
+        env:
+          PYTHONPATH: website-code/leaderboard
+        run: |
+          python -m autorse_leaderboard.package_snapshot \
+            --snapshot-dir "$RUNNER_TEMP/leaderboard-output" \
+            --output "$RUNNER_TEMP/autorse-snapshot.zip"
+
+      - name: Deliver the reviewed snapshot to the AutoRSE server
+        if: steps.package.outcome == 'success' && steps.review.outcome == 'success' && ((steps.review.outputs.approved_count != '0' && steps.publish.outcome == 'success') || (steps.review.outputs.approved_count == '0' && steps.bootstrap.outcome == 'success'))
+        env:
+          AUTORSE_DEPLOY_SSH_KEY: ${{ secrets.AUTORSE_DEPLOY_SSH_KEY }}
+          GITHUB_TOKEN: ${{ github.token }}
+          PYTHONPATH: website-code/leaderboard
+        shell: bash
+        run: |
+          set -euo pipefail
+          : "${AUTORSE_DEPLOY_SSH_KEY:?The restricted server deployment key is not configured}"
+          umask 077
+          deploy_dir="$(mktemp -d "$RUNNER_TEMP/autorse-ssh.XXXXXX")"
+          trap 'rm -f "$deploy_dir/key" "$deploy_dir/known_hosts"; rmdir "$deploy_dir"' EXIT
+          printf '%s\n' "$AUTORSE_DEPLOY_SSH_KEY" > "$deploy_dir/key"
+          unset AUTORSE_DEPLOY_SSH_KEY
+          # Server ED25519 key verified against the existing trusted SSH connection.
+          cat > "$deploy_dir/known_hosts" <<'HOST_KEY'
+          114.66.48.196 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGllW7YN+jR8v+j48z9cgzOVZO0YhgAw5rBdrklJwFDM
+          HOST_KEY
+          snapshot_sha="$(python - <<'PY_SNAPSHOT'
+          import hashlib, os, zipfile
+          from pathlib import Path
+          with zipfile.ZipFile(Path(os.environ["RUNNER_TEMP"]) / "autorse-snapshot.zip") as archive:
+              print(hashlib.sha256(archive.read("snapshot-manifest.json")).hexdigest())
+          PY_SNAPSHOT
+          )"
+          [[ "$snapshot_sha" =~ ^[a-f0-9]{64}$ ]]
+          python - <<'PY_MAIN'
+          import os
+          from autorse_leaderboard.github_review import GitHubAPI, assert_main_tip
+          assert_main_tip(GitHubAPI(os.environ["GITHUB_TOKEN"]),
+                          os.environ["GITHUB_REPOSITORY"], os.environ["GITHUB_SHA"])
+          PY_MAIN
+          ssh -F /dev/null -T -p 22 \
+            -o BatchMode=yes -o IdentitiesOnly=yes \
+            -o StrictHostKeyChecking=yes \
+            -o UserKnownHostsFile="$deploy_dir/known_hosts" \
+            -o GlobalKnownHostsFile=/dev/null -o HostKeyAlgorithms=ssh-ed25519 \
+            -o ConnectTimeout=20 -o ServerAliveInterval=15 -o ServerAliveCountMax=3 \
+            -i "$deploy_dir/key" autorse-publish@114.66.48.196 \
+            "publish $snapshot_sha" < "$RUNNER_TEMP/autorse-snapshot.zip"
+
       - name: Save review and publication evidence
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
@@ -101,5 +166,6 @@ jobs:
           path: |
             ${{ runner.temp }}/approval-ledger.json
             ${{ runner.temp }}/leaderboard-output
+            ${{ runner.temp }}/autorse-snapshot.zip
           if-no-files-found: ignore
           retention-days: 90
